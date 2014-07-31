@@ -17,6 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -280,5 +281,15 @@ public class Hub extends JavaPlugin implements Listener{
 		score11.setScore(6);
 		
 		e.getPlayer().setScoreboard(board);	
+	}
+	
+	@EventHandler
+	public void onLeave(PlayerQuitEvent e){
+		if(scoreboardTask.containsKey(e.getPlayer()))
+			scoreboardTask.remove(e.getPlayer());
+		if(oldPoints.containsKey(e.getPlayer().getUniqueId()))
+			oldPoints.remove(e.getPlayer().getUniqueId());
+		if(oldStaff.containsKey(e.getPlayer().getUniqueId()))
+			oldStaff.remove(e.getPlayer().getUniqueId());
 	}
 }
