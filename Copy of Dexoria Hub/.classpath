@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="lib" path="/Users/lewysdavies/Desktop/Server + maps/Servers/1.7.4 Test server/plugins/Points.jar"/>
+	<classpathentry kind="lib" path="/Users/lewysdavies/Desktop/Server + maps/Servers/1.7.4 Test server/plugins/remoteentities-1.8-SNAPSHOT (2).jar"/>
+	<classpathentry kind="lib" path="/Users/lewysdavies/Desktop/Server + maps/Servers/1.7.4 Test server/craftbukkit.jar"/>
+	<classpathentry kind="lib" path="/Users/lewysdavies/Desktop/Server + maps/Servers/1.7.4 Test server/plugins/BarAPI.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
