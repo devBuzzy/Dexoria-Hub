@@ -596,5 +596,7 @@ public class GadgetMenu implements Listener{
 		}
 		
 	   re.remove(e.getPlayer());
+	   
+	   mount.remove(e.getPlayer());
 	}
 }

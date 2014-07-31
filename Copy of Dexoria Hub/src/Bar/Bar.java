@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class Bar implements Listener{
@@ -60,6 +61,11 @@ public class Bar implements Listener{
 			
 		});
 		bartask.get(p).runTaskTimer(Hub.getPluginInstance(), 10, 10);
+	}
+	
+	@EventHandler
+	public void onPlayerExit(PlayerQuitEvent e){
+		bartask.remove(e.getPlayer());
 	}
 	
 }
