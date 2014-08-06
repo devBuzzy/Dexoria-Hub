@@ -54,6 +54,22 @@ public class GadgetMenu implements Listener{
 		return is;
 	}
 	
+	public ItemStack xpBottle(){
+
+		ItemStack is = new ItemStack(Material.EXP_BOTTLE);
+		ItemMeta meta = is.getItemMeta();
+		meta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Paint Grenade");
+		
+		List<String> lore = new ArrayList<String>();
+		lore.add(ChatColor.RED + "" + ChatColor.BOLD + "Cost:" + ChatColor.YELLOW + " 30 Points" + ChatColor.RED + "" + ChatColor.BOLD + " Per use");
+		lore.add(ChatColor.GREEN + "Splash paint everywhere!");
+		lore.add(ChatColor.AQUA + "" + ChatColor.BOLD + "Usage:");
+		lore.add(ChatColor.GREEN + "launch the exp bottle");
+		meta.setLore(lore);
+		is.setItemMeta(meta);
+		return is;
+	}
+	
 	public ItemStack firework(){
 		ItemStack is = new ItemStack(Material.FIREWORK);
 		ItemMeta meta = is.getItemMeta();
@@ -304,6 +320,7 @@ public class GadgetMenu implements Listener{
 					gadget.setItem(4, snowgun());
 					gadget.setItem(6, tntbow());
 					gadget.setItem(18, rail());
+					gadget.setItem(3, xpBottle());
 					
 					if(e.getPlayer().hasPermission("hub.platinum")){
 					gadget.setItem(20, minecart_unlocked());
@@ -384,8 +401,18 @@ public class GadgetMenu implements Listener{
 				p.sendMessage(prefix + ChatColor.GRAY + "You " + ChatColor.GREEN + "activated" + ChatColor.GRAY + " Firework!");
 				}
 			}
-		
 			
+			if(e.getCurrentItem().getType() == Material.EXP_BOTTLE){
+				if(e.getWhoClicked().getInventory().contains(Material.EXP_BOTTLE)){
+					e.getWhoClicked().getInventory().setItem(3, new ItemStack(Material.AIR));
+					p.sendMessage(prefix + ChatColor.GRAY + "You " + ChatColor.RED + "deactivated" + ChatColor.GRAY + " Paint Grenade");
+				}else{		
+				e.getWhoClicked().getInventory().setItem(3, xpBottle());
+				e.getWhoClicked().getInventory().setItem(5, new ItemStack(Material.AIR));
+				p.sendMessage(prefix + ChatColor.GRAY + "You " + ChatColor.GREEN + "activated" + ChatColor.GRAY + " Paint Grenade");
+				}
+			}
+		
 			if(e.getCurrentItem().getType() == Material.BOW){
 				
 				if(e.getWhoClicked().getInventory().contains(Material.BOW)){

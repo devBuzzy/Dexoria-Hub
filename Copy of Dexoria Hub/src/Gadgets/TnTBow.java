@@ -12,7 +12,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
-import org.bukkit.Location;
 import org.bukkit.FireworkEffect.Type;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
@@ -32,7 +31,6 @@ public class TnTBow implements Listener{
 	 private HashMap<Player, Double> cooldownTime = new HashMap<Player, Double>();
 	 private HashMap<Player, BukkitRunnable> cooldownTask = new HashMap<Player, BukkitRunnable>();
 	
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void bowFire(ProjectileLaunchEvent e){
 		if((e.getEntity().getShooter() instanceof Player) 

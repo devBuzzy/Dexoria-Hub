@@ -48,6 +48,7 @@ public class SnowGun implements Listener{
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void doSnowBallHit(final Player p){
 		
 		hit.add(p.getName());
@@ -84,7 +85,6 @@ public class SnowGun implements Listener{
 		
 		Bukkit.getScheduler().scheduleSyncDelayedTask(Hub.getPluginInstance(), new Runnable(){
 
-			@Override
 			public void run() {
 				hit.remove(p.getName());
 				p.getInventory().setHelmet(new ItemStack(Material.AIR));

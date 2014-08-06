@@ -3,7 +3,6 @@ package Bar;
 import java.util.HashMap;
 import java.util.Random;
 
-import me.confuser.barapi.BarAPI;
 import me.lewys.com.Hub;
 
 import org.bukkit.ChatColor;
@@ -14,7 +13,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class Bar implements Listener{
+public class BarManager implements Listener{
 
 	HashMap<Player, BukkitRunnable> bartask = new HashMap<Player, BukkitRunnable>();
 	
@@ -33,7 +32,11 @@ public class Bar implements Listener{
 				
 				Random r = new Random();
 				ChatColor c = ChatColor.values()[r.nextInt(ChatColor.values().length)];
-				while(c == ChatColor.STRIKETHROUGH || c == ChatColor.ITALIC || c == ChatColor.BOLD || c == ChatColor.MAGIC || c == ChatColor.UNDERLINE || c == ChatColor.BLACK || c == ChatColor.GRAY) {
+				while(c == ChatColor.STRIKETHROUGH || c == ChatColor.ITALIC
+					|| 	c == ChatColor.BOLD || c == ChatColor.MAGIC 
+					|| c == ChatColor.UNDERLINE || c == ChatColor.BLACK 
+					|| c == ChatColor.GRAY 	|| c == ChatColor.WHITE 
+					|| c == ChatColor.DARK_GREEN) {
 				c = ChatColor.values()[r.nextInt(ChatColor.values().length)];
 				}
 				
@@ -42,19 +45,19 @@ public class Bar implements Listener{
 				return;
 				}
 				if(msg >= 20){
-				BarAPI.setMessage(p, c + "" + ChatColor.BOLD + "Dexoria: " + ChatColor.WHITE + "New Rank:" + ChatColor.GREEN + " Founder", 100);
+				BarAPI.setMessage(p, c + "" + ChatColor.BOLD + "Dexoria: " + ChatColor.WHITE + "New Rank:" + ChatColor.GREEN + " Founder", true);
 				return;
 				}
 				if(msg >= 15){
-				BarAPI.setMessage(p, c + "" + ChatColor.BOLD + "Dexoria: " + ChatColor.AQUA + "" + ChatColor.BOLD + "Custome MiniGames", 100);
+				BarAPI.setMessage(p, c + "" + ChatColor.BOLD + "Dexoria: " + ChatColor.AQUA + "" + ChatColor.BOLD + "Custom MiniGames", true);
 				return;
 				}
 				if(msg >= 10){
-				BarAPI.setMessage(p, c + "" + ChatColor.BOLD + "Dexoria: " + ChatColor.GOLD + "www.dexoria.com", 100);
+				BarAPI.setMessage(p, c + "" + ChatColor.BOLD + "Dexoria: " + ChatColor.GOLD + "www.dexoria.com", true);
 				return;
 				}
 				else{
-				BarAPI.setMessage(p, c + "" + ChatColor.BOLD + "Dexoria: " + ChatColor.RED + "Enjoy your stay!", 100);
+				BarAPI.setMessage(p, c + "" + ChatColor.BOLD + "Dexoria: " + ChatColor.RED + "Enjoy your stay!", true);
 				return;	
 				}
 			}
@@ -67,5 +70,4 @@ public class Bar implements Listener{
 	public void onPlayerExit(PlayerQuitEvent e){
 		bartask.remove(e.getPlayer());
 	}
-	
 }
