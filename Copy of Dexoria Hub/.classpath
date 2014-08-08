@@ -13,5 +13,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/Lewys/Documents/Developing stuff/remoteentities-1.8-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Lewys/Documents/Developing stuff/BarAPI.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

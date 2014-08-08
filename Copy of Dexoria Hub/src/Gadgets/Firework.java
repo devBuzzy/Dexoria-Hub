@@ -17,8 +17,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class Firework implements Listener{
 	
-	 private HashMap<Player, Double> cooldownTime = new HashMap<Player, Double>();
-	 private HashMap<Player, BukkitRunnable> cooldownTask = new HashMap<Player, BukkitRunnable>();
+	 private HashMap<String, Double> cooldownTime = new HashMap<String, Double>();
+	 private HashMap<String, BukkitRunnable> cooldownTask = new HashMap<String, BukkitRunnable>();
 
     
 	@EventHandler
@@ -28,8 +28,8 @@ public class Firework implements Listener{
 			
 				e.setCancelled(true);
 				
-				if(cooldownTime.containsKey(e.getPlayer())){
-					e.getPlayer().sendMessage("§2§lGadget" + ChatColor.WHITE + " > You must wait for " + ChatColor.RED + cooldownTime.get(e.getPlayer()) + ChatColor.WHITE + " seconds.");
+				if(cooldownTime.containsKey(e.getPlayer().getName())){
+					e.getPlayer().sendMessage("§2§lGadget" + ChatColor.WHITE + " > You must wait for " + ChatColor.RED + cooldownTime.get(e.getPlayer().getName()) + ChatColor.WHITE + " seconds.");
 					return;
 				}	
 				
@@ -40,19 +40,19 @@ public class Firework implements Listener{
 					
 					final Player p = e.getPlayer();
 					
-					cooldownTime.put(p, 2.0);
-                    cooldownTask.put(p, new BukkitRunnable() {
+					cooldownTime.put(p.getName(), 2.0);
+                    cooldownTask.put(p.getName(), new BukkitRunnable() {
                             public void run() {
-                                    cooldownTime.put(p, cooldownTime.get(p) - 0.5);
-                                    if (cooldownTime.get(p) == 0) {
-                                            cooldownTime.remove(p);
-                                            cooldownTask.remove(p);
+                                    cooldownTime.put(p.getName(), cooldownTime.get(p.getName()) - 0.5);
+                                    if (cooldownTime.get(p.getName()) == 0) {
+                                            cooldownTime.remove(p.getName());
+                                            cooldownTask.remove(p.getName());
                                             cancel();
                                     }
                             }
                     });
                    
-                    cooldownTask.get(p).runTaskTimer(Hub.getPluginInstance(), 10, 10);
+                    cooldownTask.get(p.getName()).runTaskTimer(Hub.getPluginInstance(), 10, 10);
 
 						}else{
 							e.getPlayer().sendMessage("§2§lGadget" + ChatColor.WHITE + " > " + ChatColor.GRAY + "You don't have enough points!");

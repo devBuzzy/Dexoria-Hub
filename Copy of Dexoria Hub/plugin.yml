@@ -2,8 +2,3 @@ name: Hub
 version: 1.0
 main: me.lewys.com.Hub
 commands: 
-  epvp:
-    description: get info of the plugin
-  explosivepvp:
-    description: get the info of the plugin
- 
