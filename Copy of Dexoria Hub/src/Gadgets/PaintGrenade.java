@@ -123,7 +123,7 @@ public class PaintGrenade implements Listener{
 
 	        				@Override
 	        				public void run() {
-	        					state.update();
+	        					state.update(true);
 	        				}
 	        			}, 4 * 20);
 	            }

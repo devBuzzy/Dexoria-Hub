@@ -48,14 +48,16 @@ public class GameToggler implements Listener{
 			if(p.getItemInHand().getType() == Material.SLIME_BALL){
 				GadgetManager.addImmunity(p.getName());
 				p.sendMessage(ChatColor.BLUE + "Hub > " + ChatColor.GRAY 
-						+ "Hub games are now: " + ChatColor.GREEN + "Enabled");
+						+ "Hub games are now: " + ChatColor.RED + "Disabled");
 				p.getInventory().setItem(7, games_disabled());
+				
+				return;
 			}
 			if(p.getItemInHand().getType() == Material.MAGMA_CREAM){
 				GadgetManager.removeImmunity(p.getName());
 				
 				p.sendMessage(ChatColor.BLUE + "Hub > " + ChatColor.GRAY 
-						+ "Hub games are now: " + ChatColor.RED + "Disabled");
+						+ "Hub games are now: " + ChatColor.GREEN + "Enabled");
 				
 				p.getInventory().setItem(7, games_enabled());
 			}

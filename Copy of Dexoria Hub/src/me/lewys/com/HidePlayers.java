@@ -36,7 +36,7 @@ public class HidePlayers implements Listener{
 	}
 	
 	public ItemStack player_disabled(){
-		ItemStack is = new ItemStack(Material.REDSTONE_TORCH_OFF);
+		ItemStack is = new ItemStack(Material.REDSTONE_TORCH_ON);
 		ItemMeta meta = is.getItemMeta();
 		meta.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Players Disabled");
 		
@@ -52,7 +52,7 @@ public class HidePlayers implements Listener{
 		final Player p = e.getPlayer();
 		if(e.getPlayer().getItemInHand().getType() != null){
 			if(e.getPlayer().getItemInHand().getType() == Material.TORCH){
-				
+				e.setCancelled(true);
 				if(cooldown.containsKey(p.getName())){
 					p.sendMessage(ChatColor.BLUE + "Hub > " + ChatColor.GRAY
 							+ "You must wait " + ChatColor.RED + cooldown.get(p.getName()
@@ -86,11 +86,15 @@ public class HidePlayers implements Listener{
 				
 				task.get(p.getName()).runTaskTimer(Hub.instance, 10, 10);
 				
+				p.getInventory().setItem(9, new ItemStack(Material.AIR));
 				p.getInventory().setItem(9, player_disabled());
+				p.updateInventory();
+				
+				return;
 			}
 			
-			if(e.getPlayer().getItemInHand().getType() == Material.REDSTONE_TORCH_OFF){
-				
+			if(e.getPlayer().getItemInHand().getType() == Material.REDSTONE_TORCH_ON){
+				e.setCancelled(true);
 				if(cooldown.containsKey(p.getName())){
 					p.sendMessage(ChatColor.BLUE + "Hub > " + ChatColor.GRAY
 							+ "You must wait " + ChatColor.RED + cooldown.get(p.getName()
@@ -124,7 +128,9 @@ public class HidePlayers implements Listener{
 				
 				task.get(p.getName()).runTaskTimer(Hub.instance, 10, 10);
 				
+				p.getInventory().setItem(9, new ItemStack(Material.AIR));
 				p.getInventory().setItem(9, player_enabled());
+				p.updateInventory();
 			}
 		}
 	}
