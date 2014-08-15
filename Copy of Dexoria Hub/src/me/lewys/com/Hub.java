@@ -29,6 +29,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 
 import Bar.BarManager;
+import EventManager.Join;
 import Gadgets.Firework;
 import Gadgets.GadgetManager;
 import Gadgets.GadgetMenu;
@@ -86,6 +87,9 @@ public class Hub extends JavaPlugin implements Listener{
 		Bukkit.getPluginManager().registerEvents(new BarManager(), this);
 		Bukkit.getPluginManager().registerEvents(new PaintGrenade(), this);
 		Bukkit.getPluginManager().registerEvents(new GadgetManager(), this);
+		Bukkit.getPluginManager().registerEvents(new Join(), this);
+		Bukkit.getPluginManager().registerEvents(new HidePlayers(), this);
+		Bukkit.getPluginManager().registerEvents(new GameToggler(), this);
 		Bukkit.getPluginManager().registerEvents(this, this);
 		
 		  if(!pet_dogF.exists()){

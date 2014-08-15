@@ -46,19 +46,19 @@ public class BarManager implements Listener{
 				return;
 				}
 				if(msg >= 20){
-				BarAPI.setMessage(p, c + "" + ChatColor.BOLD + "Dexoria: " + ChatColor.WHITE + "New Rank:" + ChatColor.GREEN + " Founder", 100f);
+				BarAPI.setMessage(p, c + "" + ChatColor.BOLD + "Dexoria: " + ChatColor.WHITE + "Hesh is one sexy monkey", 100f);
 				return;
 				}
 				if(msg >= 15){
-				BarAPI.setMessage(p, c + "" + ChatColor.BOLD + "Dexoria: " + ChatColor.AQUA + "" + ChatColor.BOLD + "Custom MiniGames", 100f);
+				BarAPI.setMessage(p, c + "" + ChatColor.BOLD + "Dexoria: " + ChatColor.AQUA + "" + ChatColor.BOLD + "Husker still smells", 100f);
 				return;
 				}
 				if(msg >= 10){
-				BarAPI.setMessage(p, c + "" + ChatColor.BOLD + "Dexoria: " + ChatColor.GOLD + "www.dexoria.com", 100f);
+				BarAPI.setMessage(p, c + "" + ChatColor.BOLD + "Dexoria: " + ChatColor.GOLD + "Johhny takes good selfies", 100f);
 				return;
 				}
 				else{
-				BarAPI.setMessage(p, c + "" + ChatColor.BOLD + "Dexoria: " + ChatColor.RED + "Enjoy your stay!", 100f);
+				BarAPI.setMessage(p, c + "" + ChatColor.BOLD + "Dexoria: " + ChatColor.RED + "Hub plugin now in v2!", 100f);
 				return;	
 				}
 			}
