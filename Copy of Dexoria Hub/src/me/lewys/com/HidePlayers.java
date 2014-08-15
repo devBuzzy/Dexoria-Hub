@@ -86,12 +86,12 @@ public class HidePlayers implements Listener{
 				
 				task.get(p.getName()).runTaskTimer(Hub.instance, 10, 10);
 				
-				p.getInventory().setItem(9, new ItemStack(Material.AIR));
-				p.getInventory().setItem(9, player_disabled());
+				p.getInventory().setItem(8, new ItemStack(Material.AIR));
+				p.getInventory().setItem(8, player_disabled());
 				p.updateInventory();
 				
 				return;
-			}
+			}else
 			
 			if(e.getPlayer().getItemInHand().getType() == Material.REDSTONE_TORCH_ON){
 				e.setCancelled(true);
@@ -128,8 +128,8 @@ public class HidePlayers implements Listener{
 				
 				task.get(p.getName()).runTaskTimer(Hub.instance, 10, 10);
 				
-				p.getInventory().setItem(9, new ItemStack(Material.AIR));
-				p.getInventory().setItem(9, player_enabled());
+				p.getInventory().setItem(8, new ItemStack(Material.AIR));
+				p.getInventory().setItem(8, player_enabled());
 				p.updateInventory();
 			}
 		}

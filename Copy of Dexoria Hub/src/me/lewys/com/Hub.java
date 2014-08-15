@@ -307,7 +307,7 @@ public class Hub extends JavaPlugin implements Listener{
 		if(label.equalsIgnoreCase("hub")){
 			if((sender.isOp()) || (!(sender instanceof Player))){
 				
-				if((args.length < 0) || args.length > 1){
+				if((args.length < 0) || (args.length > 1)){
 					sender.sendMessage("ERROR: Not enough argumenets!");
 					sender.sendMessage("Usage: /hub <reload | stop>");
 					return false;
