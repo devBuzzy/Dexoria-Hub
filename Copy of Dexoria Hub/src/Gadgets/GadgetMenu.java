@@ -379,7 +379,7 @@ public class GadgetMenu implements Listener{
 			e.getWhoClicked().getInventory().setItem(3, new ItemStack(Material.AIR));	
 			e.getWhoClicked().getInventory().setItem(5, new ItemStack(Material.AIR));	
 			if(e.getWhoClicked().hasPermission("hub.platinum")){
-			for(Entity cart : Bukkit.getWorld("flatroom").getEntities()){
+			for(Entity cart : Bukkit.getWorld("hub").getEntities()){
 				if(cart.getType() == EntityType.MINECART){
 					
 					if(cart.getPassenger() == null){

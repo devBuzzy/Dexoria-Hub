@@ -39,6 +39,12 @@ public class TnTBow implements Listener{
 			
 			final Player p = (Player) e.getEntity().getShooter();
 			
+			if(GadgetManager.isImmune(p.getName())){
+				p.sendMessage(ChatColor.BLUE + "Hub > " + ChatColor.GRAY
+						+ "You are not playing hub games.");
+				return;
+			}
+			
 			if(Points.hasEnough(p.getName(), 100)){
 				
 			if(cooldownTime.containsKey(p)){
@@ -82,10 +88,17 @@ public class TnTBow implements Listener{
 			if(!(p instanceof Player))
 				continue;
 			
+			Player player = (Player) p;
+			
+			if(GadgetManager.isImmune(player.getName())){
+				continue;
+			}
+			
 			nearby.add(p);
 		}
 		
 		for(final Entity p : nearby){
+			
 			p.setVelocity(p.getLocation().getDirection().multiply(-1.5d).add(new Vector(0,1.5,0)));
 			
 			Bukkit.getScheduler().scheduleSyncDelayedTask(Hub.getPluginInstance(), new Runnable(){

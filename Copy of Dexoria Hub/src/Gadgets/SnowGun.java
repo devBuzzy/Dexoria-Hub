@@ -8,6 +8,7 @@ import me.lewys.com.Points;
 import me.lewys.particles.ParticleEffect;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -29,6 +30,12 @@ public class SnowGun implements Listener{
 	public void onShovelClick(PlayerInteractEvent e){
 		if(e.getAction() == Action.RIGHT_CLICK_AIR){
 			if(e.getPlayer().getItemInHand().getType() == Material.IRON_BARDING){
+				if(GadgetManager.isImmune(e.getPlayer().getName())){
+					e.getPlayer().sendMessage(ChatColor.BLUE + "Hub > " + ChatColor.GRAY
+							+ "You are not playing hub games.");
+					return;
+				}
+				
 				if(Points.hasEnough(e.getPlayer().getName(), 2)){
 					Points.removePoints(e.getPlayer().getName(), 2);
 					e.getPlayer().launchProjectile(Snowball.class, e.getPlayer().getLocation().getDirection().multiply(2));
@@ -41,6 +48,16 @@ public class SnowGun implements Listener{
 	public void projectilehit(EntityDamageByEntityEvent e){
 		if((e.getEntity() instanceof Player) && (e.getDamager() instanceof Snowball)){
 			Player hitp = (Player) e.getEntity();
+			
+			if(GadgetManager.isImmune(hitp.getName())){
+				Snowball s = (Snowball) e.getDamager();
+				Player shooter = (Player) s.getShooter();
+				
+				shooter.sendMessage(ChatColor.BLUE + "Hub > " 
+				+ ChatColor.GRAY + "Player " + ChatColor.RED + hitp.getName() + ChatColor.GRAY
+				+ " is not playing hub games!");
+				return;
+			}
 			if(hit.contains(hitp.getName()))
 					return;
 			

@@ -1,4 +1,7 @@
 name: Hub
 version: 1.0
 main: me.lewys.com.Hub
-commands: 
+commands:
+   hub:
+      description: The main hub command framework.
+ 

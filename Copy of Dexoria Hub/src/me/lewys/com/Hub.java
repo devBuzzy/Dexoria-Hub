@@ -11,6 +11,8 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -28,6 +30,7 @@ import org.bukkit.scoreboard.ScoreboardManager;
 
 import Bar.BarManager;
 import Gadgets.Firework;
+import Gadgets.GadgetManager;
 import Gadgets.GadgetMenu;
 import Gadgets.PaintGrenade;
 import Gadgets.SnowGun;
@@ -47,7 +50,7 @@ public class Hub extends JavaPlugin implements Listener{
 	
 	public static Hub instance;
 	
-    private HashMap<Player, BukkitRunnable> scoreboardTask = new HashMap<Player, BukkitRunnable>();
+    private HashMap<String, BukkitRunnable> scoreboardTask = new HashMap<String, BukkitRunnable>();
     Map<UUID, Integer> oldPoints = new HashMap<UUID, Integer>();
     Map<UUID, String> oldStaff = new HashMap<UUID, String>();
 	
@@ -82,6 +85,7 @@ public class Hub extends JavaPlugin implements Listener{
 		Bukkit.getPluginManager().registerEvents(new SnowGun(), this);
 		Bukkit.getPluginManager().registerEvents(new BarManager(), this);
 		Bukkit.getPluginManager().registerEvents(new PaintGrenade(), this);
+		Bukkit.getPluginManager().registerEvents(new GadgetManager(), this);
 		Bukkit.getPluginManager().registerEvents(this, this);
 		
 		  if(!pet_dogF.exists()){
@@ -192,7 +196,7 @@ public class Hub extends JavaPlugin implements Listener{
 		score6.setScore(11);
 		
 		final Player p = e.getPlayer();
-		  scoreboardTask.put(p, new BukkitRunnable() {
+		  scoreboardTask.put(p.getName(), new BukkitRunnable() {
               public void run() {
         		
             	  board.resetScores(Bukkit.getOfflinePlayer(ChatColor.BOLD + "" + ChatColor.WHITE + oldPoints.get(e.getPlayer().getUniqueId())));
@@ -204,13 +208,13 @@ public class Hub extends JavaPlugin implements Listener{
             	  
                       if(!(e.getPlayer().isOnline())){
                     	  
-                              scoreboardTask.remove(p);
+                              scoreboardTask.remove(p.getName());
                               cancel();
                       }
               }
       });
      
-        scoreboardTask.get(p).runTaskTimer(Hub.getPluginInstance(), 0, 20);
+        scoreboardTask.get(p.getName()).runTaskTimer(Hub.getPluginInstance(), 0, 20);
         
 		
 		Score score4 = objective.getScore(Bukkit.getOfflinePlayer(ChatColor.GREEN + "" + ChatColor.BOLD + "Rank")); 
@@ -256,7 +260,7 @@ public class Hub extends JavaPlugin implements Listener{
 						staff = true;
 					}
 				}
-				if(staff = true){
+				if(staff == true){
 				Score score8 = objective.getScore(Bukkit.getOfflinePlayer(ChatColor.BOLD + "" + ChatColor.WHITE +"YES")); 
 				score8.setScore(9);
 				oldStaff.remove(p.getUniqueId());
@@ -292,4 +296,42 @@ public class Hub extends JavaPlugin implements Listener{
 		if(oldStaff.containsKey(e.getPlayer().getUniqueId()))
 			oldStaff.remove(e.getPlayer().getUniqueId());
 	}
+	
+	
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		if(label.equalsIgnoreCase("hub")){
+			if((sender.isOp()) || (!(sender instanceof Player))){
+				
+				if((args.length < 0) || args.length > 1){
+					sender.sendMessage("ERROR: Not enough argumenets!");
+					sender.sendMessage("Usage: /hub <reload | stop>");
+					return false;
+				}
+				
+				if(args[0].equalsIgnoreCase("reload")){
+					for(Player p : Bukkit.getOnlinePlayers())					
+						p.kickPlayer(ChatColor.BLUE + "Hub >" 
+					+ ChatColor.WHITE + "The hub is reloading, see you soon!");
+					
+					Bukkit.dispatchCommand(sender, "reload");
+					
+					return true;
+				}
+				
+				if(args[0].equalsIgnoreCase("stop")){
+					for(Player p : Bukkit.getOnlinePlayers())					
+						p.kickPlayer(ChatColor.BLUE + "Hub >" 
+					+ ChatColor.WHITE + "The server is shuting down, see you soon!");
+					
+					Bukkit.dispatchCommand(sender, "stop");
+					
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+	
 }
