@@ -47,6 +47,7 @@ public class HidePlayers implements Listener{
 		return is;
 	}
 	
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onInteract(PlayerInteractEvent e){
 		final Player p = e.getPlayer();

@@ -307,7 +307,7 @@ public class Hub extends JavaPlugin implements Listener{
 		if(label.equalsIgnoreCase("hub")){
 			if((sender.isOp()) || (!(sender instanceof Player))){
 				
-				if((args.length < 0) || (args.length > 1)){
+				if(args.length < 0){
 					sender.sendMessage("ERROR: Not enough argumenets!");
 					sender.sendMessage("Usage: /hub <reload | stop>");
 					return false;
@@ -331,6 +331,18 @@ public class Hub extends JavaPlugin implements Listener{
 					Bukkit.dispatchCommand(sender, "stop");
 					
 					return true;
+				}
+				
+				if(args[0].equalsIgnoreCase("donate")){
+					if(args[1].equals(null)){
+						return false;
+					}else{
+						String donor_name = args[1];
+						
+						Bukkit.broadcastMessage(ChatColor.BLUE + "Donation >" + ChatColor.GRAY +
+								" Thanks " + ChatColor.RED + donor_name + ChatColor.GRAY 
+								+ " for donating and helping the server!");
+					}
 				}
 			}
 		}

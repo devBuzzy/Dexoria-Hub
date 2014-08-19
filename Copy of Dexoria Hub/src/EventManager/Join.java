@@ -100,6 +100,13 @@ public class Join implements Listener{
 			}
 		}, 3);
 		
+		p.getInventory().clear();
+		
+		p.getInventory().getHelmet().setType(null);
+		p.getInventory().getChestplate().setType(null);
+		p.getInventory().getLeggings().setType(null);
+		p.getInventory().getBoots().setType(null);
+		
 		p.getInventory().setItem(0, compass());
 		p.getInventory().setItem(4, gadgetmenu());
 		p.getInventory().setItem(7, games_enabled());
