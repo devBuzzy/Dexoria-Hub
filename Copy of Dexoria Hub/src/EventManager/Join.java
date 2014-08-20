@@ -89,7 +89,7 @@ public class Join implements Listener{
 	
 	@EventHandler
 	public void onJoin(PlayerJoinEvent e){
-		final Location hubloc = new Location(Bukkit.getWorld("hub"), -843.5, 12, 22);
+		final Location hubloc = new Location(Bukkit.getWorld("hub"), -843.5, 17, 22);
 		final Player p = e.getPlayer();
 		
 		Bukkit.getScheduler().scheduleSyncDelayedTask(Hub.instance, new Runnable(){
@@ -97,20 +97,23 @@ public class Join implements Listener{
 			@Override
 			public void run() {
 				p.teleport(hubloc);
+				
+				p.getInventory().clear();
+				
+				p.getInventory().setHelmet(null);
+				p.getInventory().setChestplate(null);
+				p.getInventory().setLeggings(null);
+				p.getInventory().setBoots(null);
+				
+				p.getInventory().setItem(0, compass());
+				p.getInventory().setItem(4, gadgetmenu());
+				p.getInventory().setItem(7, games_enabled());
+				p.getInventory().setItem(8, player_enabled());
+				
+				p.updateInventory();
 			}
 		}, 3);
 		
-		p.getInventory().clear();
-		
-		p.getInventory().getHelmet().setType(null);
-		p.getInventory().getChestplate().setType(null);
-		p.getInventory().getLeggings().setType(null);
-		p.getInventory().getBoots().setType(null);
-		
-		p.getInventory().setItem(0, compass());
-		p.getInventory().setItem(4, gadgetmenu());
-		p.getInventory().setItem(7, games_enabled());
-		p.getInventory().setItem(8, player_enabled());
 		
 		
 		Bukkit.broadcastMessage(ChatColor.BLUE + "Join >" + ChatColor.GRAY + " Player " +

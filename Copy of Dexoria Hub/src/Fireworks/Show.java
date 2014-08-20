@@ -8,16 +8,12 @@ import org.bukkit.Location;
 
 public class Show {
 	
-	public Show(String donor) {
-	}
-	
 	boolean hasFinished = false;
 	
 	public int task;
 	public int fireworks = 0;
 	public int cooldown = 60;
-	
-	public String donor;
+
 	
 	public void startShow() {
 		task = Bukkit.getScheduler().scheduleSyncRepeatingTask(Hub.instance, new Runnable() {

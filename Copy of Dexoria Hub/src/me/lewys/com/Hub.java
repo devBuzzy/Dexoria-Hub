@@ -30,6 +30,7 @@ import org.bukkit.scoreboard.ScoreboardManager;
 
 import Bar.BarManager;
 import EventManager.Join;
+import Fireworks.Show;
 import Gadgets.Firework;
 import Gadgets.GadgetManager;
 import Gadgets.GadgetMenu;
@@ -342,6 +343,9 @@ public class Hub extends JavaPlugin implements Listener{
 						Bukkit.broadcastMessage(ChatColor.BLUE + "Donation >" + ChatColor.GRAY +
 								" Thanks " + ChatColor.RED + donor_name + ChatColor.GRAY 
 								+ " for donating and helping the server!");
+						
+						Show s = new Show();
+						s.startShow();
 					}
 				}
 			}
