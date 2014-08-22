@@ -145,15 +145,24 @@ public class HidePlayers implements Listener{
 	}
 	
 	@EventHandler
-	public void onPlayerJoin(PlayerJoinEvent e){
-		for(Player p : Bukkit.getOnlinePlayers()){
-			e.getPlayer().showPlayer(p);
-		}
+	public void onPlayerJoin(final PlayerJoinEvent e){
 		
-		for(String shid : enabled){
-			Player hhid = Bukkit.getPlayer(shid);
+		Bukkit.getScheduler().scheduleSyncDelayedTask(Hub.instance, new Runnable(){
+
+			@Override
+			public void run() {
+				
+				for(Player p : Bukkit.getOnlinePlayers()){
+					e.getPlayer().showPlayer(p);
+				}
+				
+				for(String shid : enabled){
+					Player hhid = Bukkit.getPlayer(shid);
+					
+					hhid.hidePlayer(e.getPlayer());
+				}
+			}
 			
-			hhid.hidePlayer(e.getPlayer());
-		}
+		}, 20);
 	}
 }

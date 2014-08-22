@@ -37,7 +37,7 @@ public class PaintGrenade implements Listener{
 				if(Points.hasEnough(e.getPlayer().getName(), 30)){
 					Points.removePoints(e.getPlayer().getName(), 30);
 				}else{
-					e.getPlayer().sendMessage("§2§lGadget" + ChatColor.WHITE + " > " + ChatColor.GRAY + "You don't have enough points!");
+					e.getPlayer().sendMessage("" + "Â§2Â§lGadget" + ChatColor.WHITE + " > " + ChatColor.GRAY + "You don't have enough points!");
 					return;
 				}
 				
@@ -65,7 +65,7 @@ public class PaintGrenade implements Listener{
 					cooldowntask.get(p.getName()).runTaskTimer(Hub.instance, 10, 10);
 					
 				}else{
-					e.getPlayer().sendMessage("§2§lGadget" + ChatColor.WHITE + " > You must wait for " + ChatColor.RED + timeleft.get(e.getPlayer().getName()) + ChatColor.WHITE + " seconds.");
+					e.getPlayer().sendMessage("Â§2Â§lGadget" + ChatColor.WHITE + " > You must wait for " + ChatColor.RED + timeleft.get(e.getPlayer().getName()) + ChatColor.WHITE + " seconds.");
 				}
 			}
 		}
