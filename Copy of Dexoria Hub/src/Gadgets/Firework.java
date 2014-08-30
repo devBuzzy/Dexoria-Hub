@@ -2,8 +2,8 @@ package Gadgets;
 
 import java.util.HashMap;
 
+import me.lewys.com.Currency;
 import me.lewys.com.Hub;
-import me.lewys.com.Points;
 import me.lewys.com.RandomFirework;
 
 import org.bukkit.ChatColor;
@@ -33,8 +33,8 @@ public class Firework implements Listener{
 					return;
 				}	
 				
-				if(Points.hasEnough(e.getPlayer().getName(), 10)){
-					Points.removePoints(e.getPlayer().getName(), 10);
+				if(Currency.hasEnoughGC(e.getPlayer().getUniqueId().toString(), 10)){
+					Currency.removeGC(e.getPlayer().getUniqueId().toString(), 10);
 					
 					RandomFirework.getManager().launchRandomFirework(e.getPlayer().getLocation());
 					

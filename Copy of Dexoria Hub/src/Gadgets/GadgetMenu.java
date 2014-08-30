@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import me.lewys.com.Currency;
 import me.lewys.com.Hub;
-import me.lewys.com.Points;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -471,8 +470,8 @@ public class GadgetMenu implements Listener{
 	}
 			if(e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN + "" + ChatColor.BOLD + "Dog")){
 				if(e.getCurrentItem().getItemMeta().getLore().contains(ChatColor.RED + "" + ChatColor.BOLD + "Cost:" + ChatColor.YELLOW + " 3,500 Points")){
-					if(Points.hasEnough(p.getName(), 3500)){
-					Points.removePoints(p.getName(), 3500);
+					if(Currency.hasEnoughGC(p.getUniqueId().toString(), 3500)){
+					Currency.removeGC(p.getUniqueId().toString(), 3500);
 					p.sendMessage(prefix + ChatColor.GRAY + "You purchased " + ChatColor.GREEN + "Dog Pet!");
 					Hub.getpet_dogFile().set(p.getName(), "");
 					return;
@@ -494,7 +493,7 @@ public class GadgetMenu implements Listener{
 				EntityManager manager = RemoteEntities.createManager(Hub.getPluginInstance());
 				RemoteEntity entity = manager.createEntity(RemoteEntityType.Wolf, e.getWhoClicked().getLocation(), false);
 				entity.getMind().addMovementDesire(new DesireFollowSpecific(entity, (LivingEntity) e.getWhoClicked(), 3F,8F), 1);
-				entity.setName(p.getName() + " pet!");
+				entity.setName(p.getName() + "'s pet!");
 				entity.setSound(EntitySound.RANDOM, "");
 				activepet.put(p.getName(), entity.getBukkitEntity());
 				re.put(p, entity);
@@ -504,8 +503,8 @@ public class GadgetMenu implements Listener{
 		}
 			if(e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN + "" + ChatColor.BOLD + "Cat")){
 				if(e.getCurrentItem().getItemMeta().getLore().contains(ChatColor.RED + "" + ChatColor.BOLD + "Cost:" + ChatColor.YELLOW + " 3,500 Points")){
-					if(Points.hasEnough(p.getName(), 3500)){
-					Points.removePoints(p.getName(), 3500);
+					if(Currency.hasEnoughGC(p.getUniqueId().toString(), 3500)){
+						Currency.removeGC(p.getUniqueId().toString(), 3500);
 					p.sendMessage(prefix + ChatColor.GRAY + "You purchased " + ChatColor.GREEN + "Cat Pet!");
 					Hub.getpet_catFile().set(p.getName(), "");
 					return;
@@ -526,7 +525,7 @@ public class GadgetMenu implements Listener{
 				EntityManager manager = RemoteEntities.createManager(Hub.getPluginInstance());
 				RemoteEntity entity = manager.createEntity(RemoteEntityType.Ocelot, e.getWhoClicked().getLocation(), false);
 				entity.getMind().addMovementDesire(new DesireFollowSpecific(entity, (LivingEntity) e.getWhoClicked(), 3F,8F), 1);
-				entity.setName(p.getName() + " pet!");
+				entity.setName(p.getName() + "'s pet!");
 				entity.setSound(EntitySound.RANDOM, "");
 				activepet.put(p.getName(), entity.getBukkitEntity());
 				p.sendMessage(prefix + ChatColor.GRAY + "You " + ChatColor.GREEN + "activated" + ChatColor.GRAY + " Cat pet!");
@@ -535,8 +534,8 @@ public class GadgetMenu implements Listener{
 			
 			if(e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN + "" + ChatColor.BOLD + "Slime")){
 				if(e.getCurrentItem().getItemMeta().getLore().contains(ChatColor.RED + "" + ChatColor.BOLD + "Cost:" + ChatColor.YELLOW + " 3,500 Points")){
-					if(Points.hasEnough(p.getName(), 3500)){
-					Points.removePoints(p.getName(), 3500);
+					if(Currency.hasEnoughGC(p.getUniqueId().toString(), 3500)){
+						Currency.removeGC(p.getUniqueId().toString(), 3500);
 					p.sendMessage(prefix + ChatColor.GRAY + "You purchased " + ChatColor.GREEN + "Slime Pet!");
 					Hub.getpet_slimeFile().set(p.getName(), "");
 					return;
@@ -560,7 +559,7 @@ public class GadgetMenu implements Listener{
 				s.setSize(2);
 				entity.getMind().addMovementDesire(new DesireFollowSpecific(entity, (LivingEntity) e.getWhoClicked(), 3F,8F), 1);
 				entity.setSound(EntitySound.RANDOM, "");
-				entity.setName(p.getName() + " pet!");
+				entity.setName(p.getName() + "'s pet!");
 				activepet.put(p.getName(), entity.getBukkitEntity());
 				p.sendMessage(prefix + ChatColor.GRAY + "You " + ChatColor.GREEN + "activated" + ChatColor.GRAY + " Slime pet!");
 				}

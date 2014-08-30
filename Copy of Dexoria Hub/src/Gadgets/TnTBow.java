@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import me.lewys.com.Currency;
 import me.lewys.com.Hub;
-import me.lewys.com.Points;
 import me.lewys.particles.ParticleEffect;
 
 import org.bukkit.Bukkit;
@@ -45,14 +45,14 @@ public class TnTBow implements Listener{
 				return;
 			}
 			
-			if(Points.hasEnough(p.getName(), 100)){
+			if(Currency.hasEnoughGC(p.getUniqueId().toString(), 100)){
 				
 			if(cooldownTime.containsKey(p)){
 				p.sendMessage("§2§lGadget" + ChatColor.WHITE + " > You must wait for " + ChatColor.RED + cooldownTime.get(p) + ChatColor.WHITE + " seconds.");
 				return;
 			}	
 			
-			Points.removePoints(p.getName(), 100);
+			Currency.removeGC(p.getUniqueId().toString(), 100);
 			
 			Entity tnt = p.getWorld().spawnEntity(p.getLocation().add(0,1,0), EntityType.PRIMED_TNT);
 			tnt.setVelocity(p.getLocation().getDirection().multiply(2));

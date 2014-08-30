@@ -3,8 +3,8 @@ package Gadgets;
 import java.util.HashMap;
 import java.util.Random;
 
+import me.lewys.com.Currency;
 import me.lewys.com.Hub;
-import me.lewys.com.Points;
 import me.lewys.particles.ParticleEffect;
 
 import org.bukkit.Bukkit;
@@ -34,8 +34,8 @@ public class PaintGrenade implements Listener{
 				
 				e.setCancelled(true);
 				e.getPlayer().updateInventory();
-				if(Points.hasEnough(e.getPlayer().getName(), 30)){
-					Points.removePoints(e.getPlayer().getName(), 30);
+				if(Currency.hasEnoughGC(e.getPlayer().getUniqueId().toString(), 30)){
+					Currency.removeGC(e.getPlayer().getUniqueId().toString(), 30);
 				}else{
 					e.getPlayer().sendMessage("" + "§2§lGadget" + ChatColor.WHITE + " > " + ChatColor.GRAY + "You don't have enough points!");
 					return;

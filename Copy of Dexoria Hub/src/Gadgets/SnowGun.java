@@ -3,8 +3,8 @@ package Gadgets;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.lewys.com.Currency;
 import me.lewys.com.Hub;
-import me.lewys.com.Points;
 import me.lewys.particles.ParticleEffect;
 
 import org.bukkit.Bukkit;
@@ -36,8 +36,8 @@ public class SnowGun implements Listener{
 					return;
 				}
 				
-				if(Points.hasEnough(e.getPlayer().getName(), 2)){
-					Points.removePoints(e.getPlayer().getName(), 2);
+				if(Currency.hasEnoughGC(e.getPlayer().getUniqueId().toString(), 2)){
+					Currency.removeGC(e.getPlayer().getUniqueId().toString(), 2);
 					e.getPlayer().launchProjectile(Snowball.class, e.getPlayer().getLocation().getDirection().multiply(2));
 				}
 			}

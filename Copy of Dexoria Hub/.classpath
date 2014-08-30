@@ -6,7 +6,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/Users/lewysdavies/Desktop/Server + maps/Servers/1.7.4 Test server/plugins/Points.jar"/>
 	<classpathentry kind="lib" path="/Users/lewysdavies/Desktop/Server + maps/Servers/1.7.4 Test server/plugins/BarAPI.jar"/>
 	<classpathentry kind="lib" path="/Users/lewysdavies/Desktop/Server + maps/Servers/1.7.4 Test server/plugins/remoteentities-1.8-SNAPSHOT (2).jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7">
@@ -14,5 +13,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/Users/lewysdavies/Desktop/Dex jars /Currency.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -9,6 +9,7 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 
 public class Protection implements Listener {
 	
@@ -46,5 +47,11 @@ public class Protection implements Listener {
 	public void onFoodChange(FoodLevelChangeEvent e){
 		e.setFoodLevel(20);
 		e.setCancelled(true);
+	}
+	
+	@EventHandler
+	public void onPlayerdropItem(PlayerDropItemEvent e){
+		e.setCancelled(true);
+		e.getPlayer().updateInventory();
 	}
 }
