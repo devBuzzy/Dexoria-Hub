@@ -27,8 +27,10 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -38,8 +40,7 @@ import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 
-import customEntitys.crazyPig;
-
+import particles.test;
 import Bar.BarManager;
 import EventManager.Join;
 import Fireworks.Show;
@@ -49,6 +50,7 @@ import Gadgets.GadgetMenu;
 import Gadgets.PaintGrenade;
 import Gadgets.SnowGun;
 import Gadgets.TnTBow;
+import customEntitys.crazyPig;
 
 public class Hub extends JavaPlugin implements Listener{
 	
@@ -65,10 +67,14 @@ public class Hub extends JavaPlugin implements Listener{
 	public static Hub instance;
 	
     private HashMap<String, BukkitRunnable> scoreboardTask = new HashMap<String, BukkitRunnable>();
-    Map<UUID, Integer> oldPoints = new HashMap<UUID, Integer>();
+    Map<UUID, Integer> oldGC = new HashMap<UUID, Integer>();
+    Map<UUID, Integer> oldCC = new HashMap<UUID, Integer>();
     Map<UUID, String> oldStaff = new HashMap<UUID, String>();
-	
-	public void onEnable(){
+
+    public void onEnable()
+    {
+      
+      instance = this;
 		
 		RandomFirework.getManager().addColors();
 		RandomFirework.getManager().addTypes();
@@ -93,6 +99,7 @@ public class Hub extends JavaPlugin implements Listener{
 		 loadYamls();
 		 
 		Bukkit.getPluginManager().registerEvents(new Protection(), this);
+		Bukkit.getPluginManager().registerEvents(new test(), this);
 		Bukkit.getPluginManager().registerEvents(new Firework(), this);
 		Bukkit.getPluginManager().registerEvents(new TnTBow(), this);
 		Bukkit.getPluginManager().registerEvents(new GadgetMenu(), this);
@@ -103,6 +110,7 @@ public class Hub extends JavaPlugin implements Listener{
 		Bukkit.getPluginManager().registerEvents(new Join(), this);
 		Bukkit.getPluginManager().registerEvents(new HidePlayers(), this);
 		Bukkit.getPluginManager().registerEvents(new GameToggler(), this);
+		Bukkit.getPluginManager().registerEvents(new Events(), this);
 		Bukkit.getPluginManager().registerEvents(this, this);
 		
 		  if(!pet_dogF.exists()){
@@ -192,6 +200,12 @@ public class Hub extends JavaPlugin implements Listener{
 		return instance;
 	}
 	
+	  @EventHandler(priority = EventPriority.MONITOR)
+	  public void onJoin(PlayerLoginEvent e)
+	  {
+	   Currency.getScoreSystem().addPlayerIfMissing(e.getPlayer().getUniqueId().toString(), e.getPlayer().getName().toString());
+	  }
+	
 	@EventHandler
 	public void onJoin(final PlayerJoinEvent e){
 		ScoreboardManager manager = Bukkit.getScoreboardManager();
@@ -204,26 +218,27 @@ public class Hub extends JavaPlugin implements Listener{
 		
 		objective.setDisplayName(ChatColor.BLUE + "" + ChatColor.BOLD + "Dexoria");
 		
-		Score score = objective.getScore(Bukkit.getOfflinePlayer(ChatColor.YELLOW + "" + ChatColor.BOLD + "Points")); 
-		score.setScore(16);
+		Score score = objective.getScore(Bukkit.getOfflinePlayer(ChatColor.GREEN + "" + ChatColor.BOLD + "Game $")); 
+		score.setScore(18);
 		
   	  
-   Score score1 = objective.getScore(Bukkit.getOfflinePlayer("---------"));
-		score1.setScore(14);
-		
-		Score score6 = objective.getScore(Bukkit.getOfflinePlayer("----------")); 
-		score6.setScore(11);
-		
 		final Player p = e.getPlayer();
 		  scoreboardTask.put(p.getName(), new BukkitRunnable() {
               public void run() {
         		
-            	  board.resetScores(Bukkit.getOfflinePlayer(ChatColor.BOLD + "" + ChatColor.WHITE + oldPoints.get(e.getPlayer().getUniqueId())));
+            	  board.resetScores(Bukkit.getOfflinePlayer(ChatColor.BOLD + "" + ChatColor.WHITE + oldGC.get(e.getPlayer().getUniqueId())));
             	  Score score2 = objective.getScore(Bukkit.getOfflinePlayer(ChatColor.BOLD + "" + ChatColor.WHITE + Currency.getGC(e.getPlayer().getUniqueId().toString())));
-            	  score2.setScore(15);
+            	  score2.setScore(17);
             	  
-            	  oldPoints.remove(p.getName());
-            	  oldPoints.put(e.getPlayer().getUniqueId(), Currency.getGC(p.getUniqueId().toString()));
+            	  board.resetScores(Bukkit.getOfflinePlayer(ChatColor.BOLD + "" + ChatColor.WHITE + oldCC.get(e.getPlayer().getUniqueId())));
+            	  Score score3 = objective.getScore(Bukkit.getOfflinePlayer(ChatColor.BOLD + "" + ChatColor.WHITE + Currency.getCC(e.getPlayer().getUniqueId().toString())));
+            	  score3.setScore(14);
+            	  
+            	  oldGC.remove(e.getPlayer().getUniqueId());
+            	  oldGC.put(e.getPlayer().getUniqueId(), Currency.getGC(p.getUniqueId().toString()));
+            	  
+            	  oldCC.remove(e.getPlayer().getUniqueId());
+            	  oldCC.put(e.getPlayer().getUniqueId(), Currency.getCC(p.getUniqueId().toString()));
             	  
                       if(!(e.getPlayer().isOnline())){
                     	  
@@ -233,38 +248,50 @@ public class Hub extends JavaPlugin implements Listener{
               }
       });
      
-        scoreboardTask.get(p.getName()).runTaskTimer(Hub.getPluginInstance(), 0, 20);
+        scoreboardTask.get(p.getName()).runTaskTimerAsynchronously(Hub.getPluginInstance(), 0, 20);
         
+        
+    	Score score100 = objective.getScore(Bukkit.getOfflinePlayer(ChatColor.BOLD + "")); 
+		score100.setScore(16);
 		
+	  	Score score1000 = objective.getScore(Bukkit.getOfflinePlayer(ChatColor.YELLOW + "" + ChatColor.BOLD + "Cosmetic $")); 
+			score1000.setScore(15);
+		
+			Score score500 = objective.getScore(Bukkit.getOfflinePlayer(ChatColor.BLACK + "")); 
+			score500.setScore(13);
+			
 		Score score4 = objective.getScore(Bukkit.getOfflinePlayer(ChatColor.GREEN + "" + ChatColor.BOLD + "Rank")); 
-		score4.setScore(13);
+		score4.setScore(12);
         
 		
 		if(p.hasPermission("hub.owner")){
 			Score score5 = objective.getScore(Bukkit.getOfflinePlayer(ChatColor.BOLD + "" + ChatColor.RED + "OWNER")); 
-			score5.setScore(12);
+			score5.setScore(11);
 		}else if(p.hasPermission("hub.admin")){
 			Score score5 = objective.getScore(Bukkit.getOfflinePlayer(ChatColor.BOLD + "" + ChatColor.RED + "ADMIN")); 
-			score5.setScore(12);
+			score5.setScore(11);
 		}else if(p.hasPermission("hub.mod")){
 			Score score5 = objective.getScore(Bukkit.getOfflinePlayer(ChatColor.BOLD + "" + ChatColor.GOLD + "MOD")); 
-			score5.setScore(12);
+			score5.setScore(11);
 		}else if(p.hasPermission("hub.helper")){
 			Score score5 = objective.getScore(Bukkit.getOfflinePlayer(ChatColor.BOLD + "" + ChatColor.GREEN + "HELPER")); 
-			score5.setScore(12);
+			score5.setScore(11);
 		}else if(p.hasPermission("hub.ultimate")){
 			Score score5 = objective.getScore(Bukkit.getOfflinePlayer(ChatColor.BOLD + "" + ChatColor.AQUA + "ULTIMATE")); 
-			score5.setScore(12);
+			score5.setScore(11);
 		}else if(p.hasPermission("hub.platinum")){
 			Score score5 = objective.getScore(Bukkit.getOfflinePlayer(ChatColor.BOLD + "" + ChatColor.LIGHT_PURPLE + "PLATINUM")); 
-			score5.setScore(12);
+			score5.setScore(11);
 		}else{
 			Score score5 = objective.getScore(Bukkit.getOfflinePlayer(ChatColor.BOLD + "" + ChatColor.GRAY + "Default")); 
-			score5.setScore(12);
+			score5.setScore(11);
 		}
 		
-		Score score7 = objective.getScore(Bukkit.getOfflinePlayer(ChatColor.BOLD + "" + ChatColor.AQUA + "Online Staff")); 
-		score7.setScore(10);
+		Score score6 = objective.getScore(Bukkit.getOfflinePlayer(ChatColor.GOLD + "")); 
+		score6.setScore(10);
+		
+		Score score7 = objective.getScore(Bukkit.getOfflinePlayer(ChatColor.AQUA + "" + ChatColor.BOLD + "Online Staff")); 
+		score7.setScore(9);
 		
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable(){
 			boolean staff = false;
@@ -281,27 +308,27 @@ public class Hub extends JavaPlugin implements Listener{
 				}
 				if(staff == true){
 				Score score8 = objective.getScore(Bukkit.getOfflinePlayer(ChatColor.BOLD + "" + ChatColor.WHITE +"YES")); 
-				score8.setScore(9);
+				score8.setScore(8);
 				oldStaff.remove(p.getUniqueId());
 				oldStaff.put(p.getUniqueId(), "YES");
 				}else{
 				Score score8 = objective.getScore(Bukkit.getOfflinePlayer(ChatColor.BOLD + "" + ChatColor.WHITE +"NO")); 
-				score8.setScore(9);
+				score8.setScore(8);
 				oldStaff.remove(p.getUniqueId());
 				oldStaff.put(p.getUniqueId(), "NO");
 				}
 			}	
 		}, 0, 20);
 		
-		Score score9 = objective.getScore(Bukkit.getOfflinePlayer(ChatColor.BOLD + "" + ChatColor.WHITE +"----------")); 
-		score9.setScore(8);
+		Score score9 = objective.getScore(Bukkit.getOfflinePlayer(ChatColor.BOLD + "" + ChatColor.WHITE +"")); 
+		score9.setScore(7);
 		
 		
-		Score score10 = objective.getScore(Bukkit.getOfflinePlayer(ChatColor.BOLD + "" + ChatColor.DARK_RED +"Website:")); 
-		score10.setScore(7);
+		Score score10 = objective.getScore(Bukkit.getOfflinePlayer(ChatColor.DARK_RED + "" + ChatColor.BOLD + "Website")); 
+		score10.setScore(6);
 		
 		Score score11 = objective.getScore(Bukkit.getOfflinePlayer("www.dexoria.com")); 
-		score11.setScore(6);
+		score11.setScore(5);
 		
 		e.getPlayer().setScoreboard(board);	
 	}
@@ -310,8 +337,10 @@ public class Hub extends JavaPlugin implements Listener{
 	public void onLeave(PlayerQuitEvent e){
 		if(scoreboardTask.containsKey(e.getPlayer()))
 			scoreboardTask.remove(e.getPlayer());
-		if(oldPoints.containsKey(e.getPlayer().getUniqueId()))
-			oldPoints.remove(e.getPlayer().getUniqueId());
+		if(oldGC.containsKey(e.getPlayer().getUniqueId()))
+			oldGC.remove(e.getPlayer().getUniqueId());
+		if(oldCC.containsKey(e.getPlayer().getUniqueId()))
+			oldCC.remove(e.getPlayer().getUniqueId());
 		if(oldStaff.containsKey(e.getPlayer().getUniqueId()))
 			oldStaff.remove(e.getPlayer().getUniqueId());
 	}
@@ -459,5 +488,4 @@ public class Hub extends JavaPlugin implements Listener{
             e.printStackTrace();
         }
     }
-	
 }

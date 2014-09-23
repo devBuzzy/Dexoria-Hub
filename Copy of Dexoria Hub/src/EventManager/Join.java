@@ -117,6 +117,6 @@ public class Join implements Listener{
 		
 		
 		Bukkit.broadcastMessage(ChatColor.BLUE + "Join >" + ChatColor.GRAY + " Player " +
-		e.getPlayer().getName() + " Has joined the dexoria network");
+		e.getPlayer().getName() + " has joined the Dexoria Network");
 	}
 }

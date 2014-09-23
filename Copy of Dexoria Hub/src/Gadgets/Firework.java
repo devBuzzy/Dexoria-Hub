@@ -15,6 +15,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
+
 public class Firework implements Listener{
 	
 	 private HashMap<String, Double> cooldownTime = new HashMap<String, Double>();
@@ -29,7 +30,7 @@ public class Firework implements Listener{
 				e.setCancelled(true);
 				
 				if(cooldownTime.containsKey(e.getPlayer().getName())){
-					e.getPlayer().sendMessage("§2§lGadget" + ChatColor.WHITE + " > You must wait for " + ChatColor.RED + cooldownTime.get(e.getPlayer().getName()) + ChatColor.WHITE + " seconds.");
+					e.getPlayer().sendMessage("§2§lGadget" + ChatColor.GRAY + " > You must wait for " + ChatColor.RED + cooldownTime.get(e.getPlayer().getName()) + ChatColor.GRAY + " seconds.");
 					return;
 				}	
 				

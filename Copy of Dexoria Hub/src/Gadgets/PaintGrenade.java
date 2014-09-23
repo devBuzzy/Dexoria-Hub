@@ -21,6 +21,7 @@ import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
+
 public class PaintGrenade implements Listener{
 	
 	public HashMap<String, BukkitRunnable> cooldowntask = new HashMap<String, BukkitRunnable>();

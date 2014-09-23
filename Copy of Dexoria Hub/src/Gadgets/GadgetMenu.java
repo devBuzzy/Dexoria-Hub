@@ -6,6 +6,7 @@ import java.util.List;
 
 import me.lewys.com.Currency;
 import me.lewys.com.Hub;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

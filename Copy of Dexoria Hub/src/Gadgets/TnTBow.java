@@ -26,6 +26,7 @@ import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+
 public class TnTBow implements Listener{
 
 	 private HashMap<Player, Double> cooldownTime = new HashMap<Player, Double>();
@@ -48,7 +49,7 @@ public class TnTBow implements Listener{
 			if(Currency.hasEnoughGC(p.getUniqueId().toString(), 100)){
 				
 			if(cooldownTime.containsKey(p)){
-				p.sendMessage("§2§lGadget" + ChatColor.WHITE + " > You must wait for " + ChatColor.RED + cooldownTime.get(p) + ChatColor.WHITE + " seconds.");
+				p.sendMessage("§2§lGadget" + ChatColor.WHITE + " >" + ChatColor.GRAY + " You must wait for " + ChatColor.RED + cooldownTime.get(p) + ChatColor.WHITE + " seconds.");
 				return;
 			}	
 			
