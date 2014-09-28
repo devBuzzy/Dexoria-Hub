@@ -13,7 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-public class test implements Listener{
+public class FlameRing implements Listener{
 	
 	/*
 	 * just a test, will work on user in the real thing.
@@ -63,7 +63,7 @@ public class test implements Listener{
 					if(changed == true){
 						locs.clear();
 						for (double t = 0; t < 2*Math.PI; t+=Math.toRadians(6)){
-							  Location l = player.getLocation().add(Math.cos(t), 0.5, Math.sin(t));
+							  Location l = player.getLocation().add(Math.cos(t), 0.2, Math.sin(t));
 							  locs.add(l);
 							}
 					}

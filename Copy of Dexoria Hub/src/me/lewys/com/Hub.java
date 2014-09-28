@@ -40,7 +40,6 @@ import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 
-import particles.test;
 import Bar.BarManager;
 import EventManager.Join;
 import Fireworks.Show;
@@ -99,7 +98,6 @@ public class Hub extends JavaPlugin implements Listener{
 		 loadYamls();
 		 
 		Bukkit.getPluginManager().registerEvents(new Protection(), this);
-		Bukkit.getPluginManager().registerEvents(new test(), this);
 		Bukkit.getPluginManager().registerEvents(new Firework(), this);
 		Bukkit.getPluginManager().registerEvents(new TnTBow(), this);
 		Bukkit.getPluginManager().registerEvents(new GadgetMenu(), this);
@@ -110,7 +108,6 @@ public class Hub extends JavaPlugin implements Listener{
 		Bukkit.getPluginManager().registerEvents(new Join(), this);
 		Bukkit.getPluginManager().registerEvents(new HidePlayers(), this);
 		Bukkit.getPluginManager().registerEvents(new GameToggler(), this);
-		Bukkit.getPluginManager().registerEvents(new Events(), this);
 		Bukkit.getPluginManager().registerEvents(this, this);
 		
 		  if(!pet_dogF.exists()){
@@ -203,7 +200,7 @@ public class Hub extends JavaPlugin implements Listener{
 	  @EventHandler(priority = EventPriority.MONITOR)
 	  public void onJoin(PlayerLoginEvent e)
 	  {
-	   Currency.getScoreSystem().addPlayerIfMissing(e.getPlayer().getUniqueId().toString(), e.getPlayer().getName().toString());
+	   Currency.getScoreSystem().addPlayerIfMissing(e.getPlayer().getUniqueId().toString(), e.getPlayer().getName());
 	  }
 	
 	@EventHandler
