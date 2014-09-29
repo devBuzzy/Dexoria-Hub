@@ -38,7 +38,7 @@ public class PaintGrenade implements Listener{
 				if(Currency.hasEnoughGC(e.getPlayer().getUniqueId().toString(), 30)){
 					Currency.removeGC(e.getPlayer().getUniqueId().toString(), 30);
 				}else{
-					e.getPlayer().sendMessage("" + "§2§lGadget" + ChatColor.WHITE + " > " + ChatColor.GRAY + "You don't have enough points!");
+					e.getPlayer().sendMessage(ChatColor.BLUE + "Gadget > " + ChatColor.GRAY + "You don't have enough points!");
 					return;
 				}
 				
@@ -66,7 +66,7 @@ public class PaintGrenade implements Listener{
 					cooldowntask.get(p.getName()).runTaskTimer(Hub.instance, 10, 10);
 					
 				}else{
-					e.getPlayer().sendMessage("§2§lGadget" + ChatColor.WHITE + " > You must wait for " + ChatColor.RED + timeleft.get(e.getPlayer().getName()) + ChatColor.WHITE + " seconds.");
+					e.getPlayer().sendMessage(ChatColor.BLUE + "Gadget > " + ChatColor.GRAY + " You must wait for " + ChatColor.RED + timeleft.get(e.getPlayer().getName()) + ChatColor.GRAY + " seconds.");
 				}
 			}
 		}
@@ -112,7 +112,6 @@ public class PaintGrenade implements Listener{
 	            	
 	            	final BlockState state = loc.getBlock().getState();
 	            	
-	            	p.sendMessage("Setting block at: " + z + " " + y + " " + " " + z);
 	            	Random r = new Random(); 
 	        		DyeColor c = DyeColor.values()[r.nextInt(DyeColor.values().length)];
 	        		

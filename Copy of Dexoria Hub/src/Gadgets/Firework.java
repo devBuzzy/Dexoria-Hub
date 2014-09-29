@@ -30,7 +30,7 @@ public class Firework implements Listener{
 				e.setCancelled(true);
 				
 				if(cooldownTime.containsKey(e.getPlayer().getName())){
-					e.getPlayer().sendMessage("§2§lGadget" + ChatColor.GRAY + " > You must wait for " + ChatColor.RED + cooldownTime.get(e.getPlayer().getName()) + ChatColor.GRAY + " seconds.");
+					e.getPlayer().sendMessage(ChatColor.BLUE + "Gadget > " + ChatColor.GRAY + " > You must wait for " + ChatColor.RED + cooldownTime.get(e.getPlayer().getName()) + ChatColor.GRAY + " seconds.");
 					return;
 				}	
 				
@@ -56,7 +56,7 @@ public class Firework implements Listener{
                     cooldownTask.get(p.getName()).runTaskTimer(Hub.getPluginInstance(), 10, 10);
 
 						}else{
-							e.getPlayer().sendMessage("§2§lGadget" + ChatColor.WHITE + " > " + ChatColor.GRAY + "You don't have enough points!");
+							e.getPlayer().sendMessage(ChatColor.BLUE + "Gadget > " + ChatColor.GRAY + "You don't have enough points!");
 						}
 					}
 			}

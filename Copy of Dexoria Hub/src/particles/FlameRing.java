@@ -24,46 +24,44 @@ public class FlameRing implements Listener{
 	double lastX;
 	double lastY;
 	double lastZ;
-
+	
+	int task;
+	
 	List<Location> locs = new ArrayList<Location>();
 	
-	@EventHandler
-	public void onMove(final PlayerInteractEvent e){
-		
-		lastX = e.getPlayer().getLocation().getX();
-		lastY = e.getPlayer().getLocation().getY();
-		lastZ = e.getPlayer().getLocation().getZ();
-		
-		final Player player = e.getPlayer();
+	public void start(final Player p){	
+		lastX = p.getLocation().getX();
+		lastY = p.getLocation().getY();
+		lastZ = p.getLocation().getZ();
 		
 		for (double t = 0; t < 2*Math.PI; t+=Math.toRadians(6)){
-			  Location l = player.getLocation().add(Math.cos(t), 0.2, Math.sin(t));
+			  Location l = p.getLocation().add(Math.cos(t), 0.2, Math.sin(t));
 			  locs.add(l);
 			}
 		
 		final int locamount = locs.size();
 		
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(Hub.instance, new Runnable(){
+		task = Bukkit.getScheduler().scheduleSyncRepeatingTask(Hub.instance, new Runnable(){
 
 			@Override
 			public void run() {
-				if(isSame(e.getPlayer().getLocation(), new Location(e.getPlayer().getWorld(), lastX, lastY, lastZ)) == false){
+				if(isSame(p.getLocation(), new Location(p.getWorld(), lastX, lastY, lastZ)) == false){
 					
 					changed = true; 
-					ParticleEffect.FLAME.display(e.getPlayer().getLocation(), 0.5f, 0.5f, 0.5f, 0f, 2);
-					lastX = e.getPlayer().getLocation().getX();
-					lastY = e.getPlayer().getLocation().getY();
-					lastZ = e.getPlayer().getLocation().getZ();
+					ParticleEffect.FLAME.display(p.getLocation(), 0.5f, 0.5f, 0.5f, 0f, 2);
+					lastX = p.getLocation().getX();
+					lastY = p.getLocation().getY();
+					lastZ = p.getLocation().getZ();
 					locs.clear();
 					changed = true;
 					return;
 					
-				}else if(isSame(e.getPlayer().getLocation(), new Location(e.getPlayer().getWorld(), lastX, lastY, lastZ)) == true){
+				}else if(isSame(p.getLocation(), new Location(p.getWorld(), lastX, lastY, lastZ)) == true){
 					
 					if(changed == true){
 						locs.clear();
 						for (double t = 0; t < 2*Math.PI; t+=Math.toRadians(6)){
-							  Location l = player.getLocation().add(Math.cos(t), 0.2, Math.sin(t));
+							  Location l = p.getLocation().add(Math.cos(t), 0.2, Math.sin(t));
 							  locs.add(l);
 							}
 					}
@@ -87,5 +85,9 @@ public class FlameRing implements Listener{
 		if((one.getX() == two.getX()) && (one.getY() == two.getY() && (one.getZ() == two.getZ())))
 				return true;
 		else return false;
+	}
+	
+	public void stop(){
+		Bukkit.getScheduler().cancelTask(task);
 	}
 }

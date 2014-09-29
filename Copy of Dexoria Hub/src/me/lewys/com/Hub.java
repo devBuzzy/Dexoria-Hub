@@ -15,6 +15,7 @@ import java.util.UUID;
 
 import net.minecraft.server.v1_7_R1.BiomeBase;
 import net.minecraft.server.v1_7_R1.BiomeMeta;
+import net.minecraft.server.v1_7_R1.EntityBat;
 import net.minecraft.server.v1_7_R1.EntityInsentient;
 import net.minecraft.server.v1_7_R1.EntityPig;
 import net.minecraft.server.v1_7_R1.EntityTypes;
@@ -49,7 +50,7 @@ import Gadgets.GadgetMenu;
 import Gadgets.PaintGrenade;
 import Gadgets.SnowGun;
 import Gadgets.TnTBow;
-import customEntitys.crazyPig;
+import customEntitys.stillbat;
 
 public class Hub extends JavaPlugin implements Listener{
 	
@@ -73,6 +74,8 @@ public class Hub extends JavaPlugin implements Listener{
     public void onEnable()
     {
       
+    registerEntity("Bat", 65, EntityBat.class, stillbat.class);
+    	
       instance = this;
 		
 		RandomFirework.getManager().addColors();
@@ -122,7 +125,7 @@ public class Hub extends JavaPlugin implements Listener{
 			  pet_slimeF.getParentFile().mkdirs();
 		  }
 		  
-		  registerEntity("Pig", 90, EntityPig.class, crazyPig.class);
+		  registerEntity("Pig", 90, EntityPig.class, stillbat.class);
 	}
 	
 	public void onDisable(){

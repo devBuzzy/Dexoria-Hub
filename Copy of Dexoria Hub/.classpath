@@ -14,5 +14,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="/Users/lewysdavies/Desktop/Currency.jar"/>
+	<classpathentry kind="lib" path="/Users/lewysdavies/Desktop/HoloAPI-v1.2.3.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

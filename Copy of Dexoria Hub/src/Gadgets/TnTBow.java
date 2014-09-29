@@ -49,7 +49,7 @@ public class TnTBow implements Listener{
 			if(Currency.hasEnoughGC(p.getUniqueId().toString(), 100)){
 				
 			if(cooldownTime.containsKey(p)){
-				p.sendMessage("§2§lGadget" + ChatColor.WHITE + " >" + ChatColor.GRAY + " You must wait for " + ChatColor.RED + cooldownTime.get(p) + ChatColor.WHITE + " seconds.");
+				p.sendMessage(ChatColor.BLUE + "Gadget > " + ChatColor.GRAY + " You must wait for " + ChatColor.RED + cooldownTime.get(p) + ChatColor.GRAY + " seconds.");
 				return;
 			}	
 			
@@ -72,7 +72,7 @@ public class TnTBow implements Listener{
            
             cooldownTask.get(p).runTaskTimer(Hub.getPluginInstance(), 10, 10);
 		}else{
-			p.sendMessage("§2§lGadget" + ChatColor.WHITE + " > " + ChatColor.GRAY + "You don't have enough points!");
+			p.sendMessage(ChatColor.BLUE + "Gadget > "+ ChatColor.GRAY + "You don't have enough points!");
 		}
 	}
 }	
