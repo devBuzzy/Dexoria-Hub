@@ -1,5 +1,6 @@
 package me.lewys.com;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -32,7 +33,9 @@ public class Protection implements Listener {
 	
 	@EventHandler
 	public void onPlayerDamage(EntityDamageEvent e){
-		
+		if(e.getEntity().getWorld() != Bukkit.getWorld("Hub")){
+			return;
+		}
 		e.setCancelled(true);
 	}
 	

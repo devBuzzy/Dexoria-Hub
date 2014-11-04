@@ -6,10 +6,12 @@ import java.util.Random;
 import me.confuser.barapi.BarAPI;
 import me.lewys.com.Hub;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -46,19 +48,19 @@ public class BarManager implements Listener{
 				return;
 				}
 				if(msg >= 20){
-				BarAPI.setMessage(p, c + "" + ChatColor.BOLD + "Dexoria: " + ChatColor.WHITE + "This server is cool", 100f);
+				BarAPI.setMessage(p, c + "" + ChatColor.BOLD + "Dexoria: " + ChatColor.YELLOW + "First open beta!", 100f);
 				return;
 				}
 				if(msg >= 15){
-				BarAPI.setMessage(p, c + "" + ChatColor.BOLD + "Dexoria: " + ChatColor.AQUA + "" + ChatColor.BOLD + "This server is ok", 100f);
+				BarAPI.setMessage(p, c + "" + ChatColor.BOLD + "Dexoria: " + ChatColor.AQUA + "" + ChatColor.BOLD + "First beta release of Mineageddon", 100f);
 				return;
 				}
 				if(msg >= 10){
-				BarAPI.setMessage(p, c + "" + ChatColor.BOLD + "Dexoria: " + ChatColor.GOLD + "This server is AMAZING", 100f);
+				BarAPI.setMessage(p, c + "" + ChatColor.BOLD + "Dexoria: " + ChatColor.GOLD + "Join the forums for updates!", 100f);
 				return;
 				}
 				else{
-				BarAPI.setMessage(p, c + "" + ChatColor.BOLD + "Dexoria: " + ChatColor.RED + "Hub plugin now in v2!", 100f);
+				BarAPI.setMessage(p, c + "" + ChatColor.BOLD + "Dexoria: " + ChatColor.RED + "TS: dexoria.enjinvoice.com", 100f);
 				return;	
 				}
 			}
@@ -70,5 +72,19 @@ public class BarManager implements Listener{
 	@EventHandler
 	public void onPlayerExit(PlayerQuitEvent e){
 		bartask.remove(e.getPlayer());
+	}
+	
+	@EventHandler
+	public void playerswitchworld(PlayerChangedWorldEvent e){
+		if(e.getFrom().equals(Bukkit.getWorld("Hub"))){
+			BarAPI.removeBar(e.getPlayer());
+			
+			bartask.get(e.getPlayer()).cancel();
+			bartask.remove(e.getPlayer());
+			}
+		if(e.getFrom().equals(Bukkit.getWorld("MG"))){
+			BarAPI.removeBar(e.getPlayer());
+			doBar(e.getPlayer());
+		}
 	}
 }

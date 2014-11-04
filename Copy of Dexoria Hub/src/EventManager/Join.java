@@ -100,10 +100,10 @@ public class Join implements Listener{
 				
 				p.getInventory().clear();
 				
-				p.getInventory().setHelmet(null);
-				p.getInventory().setChestplate(null);
-				p.getInventory().setLeggings(null);
-				p.getInventory().setBoots(null);
+				p.getInventory().setHelmet(new ItemStack(Material.AIR));
+				p.getInventory().setChestplate(new ItemStack(Material.AIR));
+				p.getInventory().setLeggings(new ItemStack(Material.AIR));
+				p.getInventory().setBoots(new ItemStack(Material.AIR));
 				
 				p.getInventory().setItem(0, compass());
 				p.getInventory().setItem(4, gadgetmenu());

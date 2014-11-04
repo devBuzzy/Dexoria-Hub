@@ -2,7 +2,7 @@ package LuckyDip;
 
 import java.util.ArrayList;
 import java.util.List;
-import me.lewys.com.Currency;
+
 import me.lewys.com.Hub;
 import me.lewys.particles.ParticleEffect;
 
@@ -11,16 +11,16 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import dexoria.core.DexCore;
+
 public class luckydip implements Listener{
 	
-	String direction;
+	LuckyDipManager ldm = new LuckyDipManager();
 	
 	Location playerLocation;
 	Player player;
@@ -46,25 +46,30 @@ public class luckydip implements Listener{
 	
 	@SuppressWarnings("deprecation")
 	public void doLuckyDip(){
+		startLava();
+		
 		player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 1000000,10));
-		direction = getCardinalDirection(playerLocation);
 		
-		if(direction.equalsIgnoreCase("N") || direction.equalsIgnoreCase("NE")){
-			cauldron = playerLocation.subtract(0,0,2).getBlock().getLocation();
-		}
 		
-		if(direction.equalsIgnoreCase("E") || direction.equalsIgnoreCase("SE")){
-			cauldron = playerLocation.add(2,0,0).getBlock().getLocation();
-		}
-
-		if(direction.equalsIgnoreCase("W") || direction.equalsIgnoreCase("SW")){
-			cauldron = playerLocation.subtract(2,0,0).getBlock().getLocation();
-		}
-
-		if(direction.equalsIgnoreCase("N") || direction.equalsIgnoreCase("NW")){
-			cauldron = playerLocation.add(0,0,2).getBlock().getLocation();
-		}
+		if(player.getLocation().add(2,0,0).getBlock().getType() == Material.AIR){
+			cauldron = player.getLocation().add(2,0,0).getBlock().getLocation();
+			player.teleport(new Location(player.getLocation().getWorld(), cauldron.getX() -2, player.getLocation().getY(), player.getLocation().getZ(), -90, player.getLocation().getPitch()));
+			
+		}else if(player.getLocation().subtract(2,0,0).getBlock().getType() == Material.AIR){
+			cauldron = player.getLocation().subtract(2,0,0).getBlock().getLocation();
+			player.teleport(new Location(player.getLocation().getWorld(), cauldron.getX() + 2, player.getLocation().getY(), player.getLocation().getZ(), 90, player.getLocation().getPitch()));
+			
+		}else if(player.getLocation().add(0,0,2).getBlock().getType() == Material.AIR){
+			cauldron = player.getLocation().add(0,0,2).getBlock().getLocation();
+			player.teleport(new Location(player.getLocation().getWorld(), player.getLocation().getX(), player.getLocation().getY(), cauldron.getZ() - 2, 0, player.getLocation().getPitch()));
+			
+		}else if(player.getLocation().subtract(0,0,2).getBlock().getType() == Material.AIR){
+			cauldron = player.getLocation().subtract(0,0,2).getBlock().getLocation();
+			player.teleport(new Location(player.getLocation().getWorld(), player.getLocation().getX(), player.getLocation().getY(), cauldron.getZ() + 2, 180, player.getLocation().getPitch()));
 		
+		}else{
+			return;
+		}
 		
 		if(cauldron.getBlock().getType() != Material.AIR)
 			return;
@@ -72,11 +77,9 @@ public class luckydip implements Listener{
 		cauldron_top = cauldron.add(0.5,1,0.5);
 		cauldron_inside = cauldron_top.subtract(0,0.2,0);
 		
-		Location middle = playerLocation.subtract(0,1,0).getBlock().getLocation().add(0.5,1,0.5);
-		player.teleport(middle);
-		
+		ldm.addActivePlayer(player.getName(), this);
 		cauldron.getBlock().setType(Material.CAULDRON);
-		
+		canmove = false;
 		runnableTask = Bukkit.getScheduler().scheduleAsyncRepeatingTask(Hub.instance, new Runnable(){
 
 			@Override
@@ -92,12 +95,9 @@ public class luckydip implements Listener{
 				
 				totalitems++;
 				
-				doRandomItemPopOut();
 			}
 			
-		}, 20 * 2, 20 * 2);
-		
-		canmove = false;
+		}, 20 * 4, 20 * 4);
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -122,76 +122,30 @@ public class luckydip implements Listener{
 		/*/
 		 * Clear memory
 		 */
+		cauldron.getBlock().setType(Material.AIR);
+		player.removePotionEffect(PotionEffectType.SPEED);
 		player = null;
-		direction = null;
 		cauldron = null;
 		cauldron_top = null;
 		cauldron_inside = null;
 		playerLocation = null;
 		canmove = true;		
-		HandlerList.unregisterAll(this);
-		
-		player.removePotionEffect(PotionEffectType.SPEED);
-		cauldron.getBlock().setType(Material.AIR);
-		
 	}
 	
 	public void doRandomItemPopOut() {
-		
-		
-	}
-	
-	/*
-	 * Thanks to sk89q for this method.
-	 */
-	public static String getCardinalDirection(Location loc) {
-        double rotation = (loc.getYaw() - 90) % 360;
-        if (rotation < 0) {
-            rotation += 360.0;
-        }
-         if (0 <= rotation && rotation < 22.5) {
-            return "N";
-        } else if (22.5 <= rotation && rotation < 67.5) {
-            return "NE";
-        } else if (67.5 <= rotation && rotation < 112.5) {
-            return "E";
-        } else if (112.5 <= rotation && rotation < 157.5) {
-            return "SE";
-        } else if (157.5 <= rotation && rotation < 202.5) {
-            return "S";
-        } else if (202.5 <= rotation && rotation < 247.5) {
-            return "SW";
-        } else if (247.5 <= rotation && rotation < 292.5) {
-            return "W";
-        } else if (292.5 <= rotation && rotation < 337.5) {
-            return "NW";
-        } else if (337.5 <= rotation && rotation < 360.0) {
-            return "N";
-        } else {
-            return null;
-        }
+		Location loc = null;
+        
 	}
 	
 	public void doubleGameCurrency(String UUID){
-		Currency.addGC(UUID, Currency.getGC(UUID) * 2);
+		DexCore.getCurrencySystem().addGC(UUID, DexCore.getCurrencySystem().getGC(UUID) * 2);
 	}
 	
 	public void doubleCosmeticCurrency(String UUID){
-		Currency.addCC(UUID, Currency.getCC(UUID) * 2);
+		DexCore.getCurrencySystem().addCC(UUID, DexCore.getCurrencySystem().getCC(UUID) * 2);
 	}
 	
 	public boolean hasBeenPicked(PossibleItems item){
 		return got.contains(item);
-	}
-	
-	@EventHandler
-	public void onMove(PlayerMoveEvent e){
-		if(e.getPlayer() == player){
-		Location from = e.getFrom();
-		Location to = e.getTo();
-		
-		if(from.getX() != to.getX() || from.getZ() != to.getZ())
-			e.getPlayer().teleport(from);
-		}
 	}
 }

@@ -3,7 +3,6 @@ package Gadgets;
 import java.util.HashMap;
 import java.util.Random;
 
-import me.lewys.com.Currency;
 import me.lewys.com.Hub;
 import me.lewys.particles.ParticleEffect;
 
@@ -21,6 +20,8 @@ import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import dexoria.core.DexCore;
+
 
 public class PaintGrenade implements Listener{
 	
@@ -35,8 +36,8 @@ public class PaintGrenade implements Listener{
 				
 				e.setCancelled(true);
 				e.getPlayer().updateInventory();
-				if(Currency.hasEnoughGC(e.getPlayer().getUniqueId().toString(), 30)){
-					Currency.removeGC(e.getPlayer().getUniqueId().toString(), 30);
+				if(DexCore.getCurrencySystem().hasEnoughGC(e.getPlayer().getUniqueId().toString(), 30)){
+					DexCore.getCurrencySystem().removeGC(e.getPlayer().getUniqueId().toString(), 30);
 				}else{
 					e.getPlayer().sendMessage(ChatColor.BLUE + "Gadget > " + ChatColor.GRAY + "You don't have enough points!");
 					return;

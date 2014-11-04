@@ -2,7 +2,6 @@ package Gadgets;
 
 import java.util.HashMap;
 
-import me.lewys.com.Currency;
 import me.lewys.com.Hub;
 import me.lewys.com.RandomFirework;
 
@@ -14,6 +13,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import dexoria.core.DexCore;
 
 
 public class Firework implements Listener{
@@ -34,8 +35,8 @@ public class Firework implements Listener{
 					return;
 				}	
 				
-				if(Currency.hasEnoughGC(e.getPlayer().getUniqueId().toString(), 10)){
-					Currency.removeGC(e.getPlayer().getUniqueId().toString(), 10);
+				if(DexCore.getCurrencySystem().hasEnoughGC(e.getPlayer().getUniqueId().toString(), 10)){
+					DexCore.getCurrencySystem().removeGC(e.getPlayer().getUniqueId().toString(), 10);
 					
 					RandomFirework.getManager().launchRandomFirework(e.getPlayer().getLocation());
 					

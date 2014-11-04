@@ -3,7 +3,6 @@ package Gadgets;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.lewys.com.Currency;
 import me.lewys.com.Hub;
 import me.lewys.particles.ParticleEffect;
 
@@ -22,6 +21,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
+import dexoria.core.DexCore;
+
 
 public class SnowGun implements Listener{
 
@@ -37,8 +38,8 @@ public class SnowGun implements Listener{
 					return;
 				}
 				
-				if(Currency.hasEnoughGC(e.getPlayer().getUniqueId().toString(), 2)){
-					Currency.removeGC(e.getPlayer().getUniqueId().toString(), 2);
+				if(DexCore.getCurrencySystem().hasEnoughGC(e.getPlayer().getUniqueId().toString(), 2)){
+					DexCore.getCurrencySystem().removeGC(e.getPlayer().getUniqueId().toString(), 2);
 					e.getPlayer().launchProjectile(Snowball.class, e.getPlayer().getLocation().getDirection().multiply(2));
 				}
 			}

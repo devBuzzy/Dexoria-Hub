@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import me.lewys.com.Currency;
 import me.lewys.com.Hub;
 import me.lewys.particles.ParticleEffect;
 
@@ -26,6 +25,8 @@ import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import dexoria.core.DexCore;
+
 
 public class TnTBow implements Listener{
 
@@ -46,14 +47,14 @@ public class TnTBow implements Listener{
 				return;
 			}
 			
-			if(Currency.hasEnoughGC(p.getUniqueId().toString(), 100)){
+			if(DexCore.getCurrencySystem().hasEnoughGC(p.getUniqueId().toString(), 100)){
 				
 			if(cooldownTime.containsKey(p)){
 				p.sendMessage(ChatColor.BLUE + "Gadget > " + ChatColor.GRAY + " You must wait for " + ChatColor.RED + cooldownTime.get(p) + ChatColor.GRAY + " seconds.");
 				return;
 			}	
 			
-			Currency.removeGC(p.getUniqueId().toString(), 100);
+			DexCore.getCurrencySystem().removeGC(p.getUniqueId().toString(), 100);
 			
 			Entity tnt = p.getWorld().spawnEntity(p.getLocation().add(0,1,0), EntityType.PRIMED_TNT);
 			tnt.setVelocity(p.getLocation().getDirection().multiply(2));
@@ -78,6 +79,8 @@ public class TnTBow implements Listener{
 }	
 	@EventHandler
 	public void tntEcplode(final EntityExplodeEvent e){
+		if(e.getEntity().getWorld() != Bukkit.getWorld("Hub"))
+			return;
 		
 		List<Entity> nearby = new ArrayList<>();
 		e.setCancelled(true);

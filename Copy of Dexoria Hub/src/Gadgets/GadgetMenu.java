@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import me.lewys.com.Currency;
 import me.lewys.com.Hub;
 
 import org.bukkit.Bukkit;
@@ -35,6 +34,7 @@ import de.kumpelblase2.remoteentities.api.EntitySound;
 import de.kumpelblase2.remoteentities.api.RemoteEntity;
 import de.kumpelblase2.remoteentities.api.RemoteEntityType;
 import de.kumpelblase2.remoteentities.api.thinking.goals.DesireFollowSpecific;
+import dexoria.core.DexCore;
 
 public class GadgetMenu implements Listener{
 
@@ -134,7 +134,7 @@ public class GadgetMenu implements Listener{
 		meta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "MineCart");
 		
 		List<String> lore = new ArrayList<String>();
-		lore.add(ChatColor.RED + "" + ChatColor.BOLD + "Cost:" + ChatColor.LIGHT_PURPLE + " PLATNIM +");
+		lore.add(ChatColor.RED + "" + ChatColor.BOLD + "Cost:" + ChatColor.LIGHT_PURPLE + " PLATINUM +");
 		lore.add(ChatColor.GREEN + "Ride on the railway!");
 		meta.setLore(lore);
 		is.setItemMeta(meta);
@@ -471,8 +471,8 @@ public class GadgetMenu implements Listener{
 	}
 			if(e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN + "" + ChatColor.BOLD + "Dog")){
 				if(e.getCurrentItem().getItemMeta().getLore().contains(ChatColor.RED + "" + ChatColor.BOLD + "Cost:" + ChatColor.YELLOW + " 3,500 Points")){
-					if(Currency.hasEnoughGC(p.getUniqueId().toString(), 3500)){
-					Currency.removeGC(p.getUniqueId().toString(), 3500);
+					if(DexCore.getCurrencySystem().hasEnoughGC(p.getUniqueId().toString(), 3500)){
+						DexCore.getCurrencySystem().removeGC(p.getUniqueId().toString(), 3500);
 					p.sendMessage(prefix + ChatColor.GRAY + "You purchased " + ChatColor.GREEN + "Dog Pet!");
 					Hub.getpet_dogFile().set(p.getName(), "");
 					return;
@@ -504,8 +504,8 @@ public class GadgetMenu implements Listener{
 		}
 			if(e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN + "" + ChatColor.BOLD + "Cat")){
 				if(e.getCurrentItem().getItemMeta().getLore().contains(ChatColor.RED + "" + ChatColor.BOLD + "Cost:" + ChatColor.YELLOW + " 3,500 Points")){
-					if(Currency.hasEnoughGC(p.getUniqueId().toString(), 3500)){
-						Currency.removeGC(p.getUniqueId().toString(), 3500);
+					if(DexCore.getCurrencySystem().hasEnoughGC(p.getUniqueId().toString(), 3500)){
+						DexCore.getCurrencySystem().removeGC(p.getUniqueId().toString(), 3500);
 					p.sendMessage(prefix + ChatColor.GRAY + "You purchased " + ChatColor.GREEN + "Cat Pet!");
 					Hub.getpet_catFile().set(p.getName(), "");
 					return;
@@ -535,8 +535,8 @@ public class GadgetMenu implements Listener{
 			
 			if(e.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN + "" + ChatColor.BOLD + "Slime")){
 				if(e.getCurrentItem().getItemMeta().getLore().contains(ChatColor.RED + "" + ChatColor.BOLD + "Cost:" + ChatColor.YELLOW + " 3,500 Points")){
-					if(Currency.hasEnoughGC(p.getUniqueId().toString(), 3500)){
-						Currency.removeGC(p.getUniqueId().toString(), 3500);
+					if(DexCore.getCurrencySystem().hasEnoughGC(p.getUniqueId().toString(), 3500)){
+						DexCore.getCurrencySystem().removeGC(p.getUniqueId().toString(), 3500);
 					p.sendMessage(prefix + ChatColor.GRAY + "You purchased " + ChatColor.GREEN + "Slime Pet!");
 					Hub.getpet_slimeFile().set(p.getName(), "");
 					return;

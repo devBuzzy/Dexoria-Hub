@@ -5,27 +5,23 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import net.minecraft.server.v1_7_R1.BiomeBase;
-import net.minecraft.server.v1_7_R1.BiomeMeta;
-import net.minecraft.server.v1_7_R1.EntityBat;
-import net.minecraft.server.v1_7_R1.EntityInsentient;
-import net.minecraft.server.v1_7_R1.EntityPig;
-import net.minecraft.server.v1_7_R1.EntityTypes;
+import net.minecraft.server.v1_7_R3.EntityVillager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -33,6 +29,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -41,7 +39,10 @@ import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 
+import utils.HubEntitys;
+import utils.NMSUtils;
 import Bar.BarManager;
+import EventManager.Interact;
 import EventManager.Join;
 import Fireworks.Show;
 import Gadgets.Firework;
@@ -50,7 +51,9 @@ import Gadgets.GadgetMenu;
 import Gadgets.PaintGrenade;
 import Gadgets.SnowGun;
 import Gadgets.TnTBow;
-import customEntitys.stillbat;
+import LuckyDip.LuckyDipManager;
+import customEntitys.HubVillager;
+import dexoria.core.DexCore;
 
 public class Hub extends JavaPlugin implements Listener{
 	
@@ -71,10 +74,28 @@ public class Hub extends JavaPlugin implements Listener{
     Map<UUID, Integer> oldCC = new HashMap<UUID, Integer>();
     Map<UUID, String> oldStaff = new HashMap<UUID, String>();
 
-    public void onEnable()
+    @SuppressWarnings("deprecation")
+	public void onEnable()
     {
-      
-    registerEntity("Bat", 65, EntityBat.class, stillbat.class);
+    	
+     	for(Entity e : Bukkit.getWorld("Hub").getEntities()){
+    		if(e instanceof Player)
+    			continue; 
+    		e.remove();
+    	}
+    	
+     	
+     	Bukkit.getScheduler().scheduleAsyncDelayedTask(this, new Runnable(){
+
+			@Override
+			public void run() {
+				NMSUtils nms = new NMSUtils();
+				nms.registerEntity("Villager", 120, EntityVillager.class, HubVillager.class);
+		    	HubEntitys.spawn();
+			}
+     		
+     	}, 10);
+    	
     	
       instance = this;
 		
@@ -102,6 +123,7 @@ public class Hub extends JavaPlugin implements Listener{
 		 
 		Bukkit.getPluginManager().registerEvents(new Protection(), this);
 		Bukkit.getPluginManager().registerEvents(new Firework(), this);
+		Bukkit.getPluginManager().registerEvents(new Interact(), this);
 		Bukkit.getPluginManager().registerEvents(new TnTBow(), this);
 		Bukkit.getPluginManager().registerEvents(new GadgetMenu(), this);
 		Bukkit.getPluginManager().registerEvents(new SnowGun(), this);
@@ -109,6 +131,7 @@ public class Hub extends JavaPlugin implements Listener{
 		Bukkit.getPluginManager().registerEvents(new PaintGrenade(), this);
 		Bukkit.getPluginManager().registerEvents(new GadgetManager(), this);
 		Bukkit.getPluginManager().registerEvents(new Join(), this);
+		Bukkit.getPluginManager().registerEvents(new LuckyDipManager(), this);
 		Bukkit.getPluginManager().registerEvents(new HidePlayers(), this);
 		Bukkit.getPluginManager().registerEvents(new GameToggler(), this);
 		Bukkit.getPluginManager().registerEvents(this, this);
@@ -124,8 +147,6 @@ public class Hub extends JavaPlugin implements Listener{
 		  if(!pet_slimeF.exists()){
 			  pet_slimeF.getParentFile().mkdirs();
 		  }
-		  
-		  registerEntity("Pig", 90, EntityPig.class, stillbat.class);
 	}
 	
 	public void onDisable(){
@@ -200,12 +221,6 @@ public class Hub extends JavaPlugin implements Listener{
 		return instance;
 	}
 	
-	  @EventHandler(priority = EventPriority.MONITOR)
-	  public void onJoin(PlayerLoginEvent e)
-	  {
-	   Currency.getScoreSystem().addPlayerIfMissing(e.getPlayer().getUniqueId().toString(), e.getPlayer().getName());
-	  }
-	
 	@EventHandler
 	public void onJoin(final PlayerJoinEvent e){
 		ScoreboardManager manager = Bukkit.getScoreboardManager();
@@ -227,18 +242,18 @@ public class Hub extends JavaPlugin implements Listener{
               public void run() {
         		
             	  board.resetScores(Bukkit.getOfflinePlayer(ChatColor.BOLD + "" + ChatColor.WHITE + oldGC.get(e.getPlayer().getUniqueId())));
-            	  Score score2 = objective.getScore(Bukkit.getOfflinePlayer(ChatColor.BOLD + "" + ChatColor.WHITE + Currency.getGC(e.getPlayer().getUniqueId().toString())));
+            	  Score score2 = objective.getScore(Bukkit.getOfflinePlayer(ChatColor.BOLD + "" + ChatColor.WHITE + DexCore.getCurrencySystem().getGC(e.getPlayer().getUniqueId().toString())));
             	  score2.setScore(17);
             	  
             	  board.resetScores(Bukkit.getOfflinePlayer(ChatColor.BOLD + "" + ChatColor.WHITE + oldCC.get(e.getPlayer().getUniqueId())));
-            	  Score score3 = objective.getScore(Bukkit.getOfflinePlayer(ChatColor.BOLD + "" + ChatColor.WHITE + Currency.getCC(e.getPlayer().getUniqueId().toString())));
+            	  Score score3 = objective.getScore(Bukkit.getOfflinePlayer(ChatColor.BOLD + "" + ChatColor.WHITE + DexCore.getCurrencySystem().getCC(e.getPlayer().getUniqueId().toString())));
             	  score3.setScore(14);
             	  
             	  oldGC.remove(e.getPlayer().getUniqueId());
-            	  oldGC.put(e.getPlayer().getUniqueId(), Currency.getGC(p.getUniqueId().toString()));
+            	  oldGC.put(e.getPlayer().getUniqueId(), DexCore.getCurrencySystem().getGC(p.getUniqueId().toString()));
             	  
             	  oldCC.remove(e.getPlayer().getUniqueId());
-            	  oldCC.put(e.getPlayer().getUniqueId(), Currency.getCC(p.getUniqueId().toString()));
+            	  oldCC.put(e.getPlayer().getUniqueId(), DexCore.getCurrencySystem().getCC(p.getUniqueId().toString()));
             	  
                       if(!(e.getPlayer().isOnline())){
                     	  
@@ -346,14 +361,110 @@ public class Hub extends JavaPlugin implements Listener{
 	}
 	
 	
+	/*
+	 * Hub Items
+	 */
+	
+	public ItemStack gadgetmenu(){
+		ItemStack is = new ItemStack(Material.CHEST);
+		ItemMeta meta = is.getItemMeta();
+		meta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Gadgets");
+		
+		is.setItemMeta(meta);
+		return is;
+	}
+	
+	public ItemStack compass(){
+		ItemStack is = new ItemStack(Material.COMPASS);
+		ItemMeta meta = is.getItemMeta();
+		meta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Game Selector");
+		
+		List<String> lore = new ArrayList<String>();
+		lore.add(ChatColor.WHITE + "Chose a game to play!");
+		meta.setLore(lore);
+		is.setItemMeta(meta);
+		return is;
+	}
+	
+	public ItemStack games_enabled(){
+		ItemStack is = new ItemStack(Material.SLIME_BALL);
+		ItemMeta meta = is.getItemMeta();
+		meta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Hub Games Enabled");
+		
+		List<String> lore = new ArrayList<String>();
+		lore.add(ChatColor.WHITE + "Toggle being effected by gadgets");
+		meta.setLore(lore);
+		is.setItemMeta(meta);
+		return is;
+	}
+	
+	public ItemStack games_disabled(){
+		ItemStack is = new ItemStack(Material.MAGMA_CREAM);
+		ItemMeta meta = is.getItemMeta();
+		meta.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Hub Games Disabled");
+		
+		List<String> lore = new ArrayList<String>();
+		lore.add(ChatColor.WHITE + "Toggle being effected by gadgets");
+		meta.setLore(lore);
+		is.setItemMeta(meta);
+		return is;
+	}
+	
+	public ItemStack player_enabled(){
+		ItemStack is = new ItemStack(Material.TORCH);
+		ItemMeta meta = is.getItemMeta();
+		meta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Players Enabled");
+		
+		List<String> lore = new ArrayList<String>();
+		lore.add(ChatColor.WHITE + "Toggle player visibility");
+		meta.setLore(lore);
+		is.setItemMeta(meta);
+		return is;
+	}
+	
+	public ItemStack player_disabled(){
+		ItemStack is = new ItemStack(Material.REDSTONE_TORCH_OFF);
+		ItemMeta meta = is.getItemMeta();
+		meta.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Players Disabled");
+		
+		List<String> lore = new ArrayList<String>();
+		lore.add(ChatColor.WHITE + "Toggle player visibility");
+		meta.setLore(lore);
+		is.setItemMeta(meta);
+		return is;
+	}
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		if((sender.isOp()) || (sender.hasPermission("hub.owner")) || (!(sender instanceof Player) || (args.length <= 0))){
 		if(label.equalsIgnoreCase("hub")){
-			if((sender.isOp()) || (!(sender instanceof Player))){
 				
-				if(args.length < 0){
-					sender.sendMessage("ERROR: Not enough argumenets!");
-					sender.sendMessage("Usage: /hub <reload | stop>");
+				if(args.length <= 0){
+					if(sender instanceof Player){
+					final Location hubloc = new Location(Bukkit.getWorld("hub"), -843.5, 17, 22);
+					Player p = (Player) sender;
+					((Player) sender).sendMessage(ChatColor.BLUE + "Hub > " + ChatColor.GRAY + "You were sent to the hub!");
+					
+					p.teleport(hubloc);
+					
+					p.getInventory().clear();
+					
+					p.getInventory().setHelmet(new ItemStack(Material.AIR));
+					p.getInventory().setChestplate(new ItemStack(Material.AIR));
+					p.getInventory().setLeggings(new ItemStack(Material.AIR));
+					p.getInventory().setBoots(new ItemStack(Material.AIR));
+					
+					p.getInventory().setItem(0, compass());
+					p.getInventory().setItem(4, gadgetmenu());
+					p.getInventory().setItem(7, games_enabled());
+					p.getInventory().setItem(8, player_enabled());
+					
+					p.updateInventory();
+					}
+					
+					else{
+						Bukkit.getLogger().info("Usage: /hub <reload | stop>");
+					}
 					return false;
 				}
 				
@@ -396,96 +507,4 @@ public class Hub extends JavaPlugin implements Listener{
 		
 		return false;
 	}
-	
-	public void registerEntity(String name, int id, Class<? extends EntityInsentient> nmsClass, Class<? extends EntityInsentient> customClass) {
-        try {
- 
-            /*
-            * First, we make a list of all HashMap's in the EntityTypes class
-            * by looping through all fields. I am using reflection here so we
-            * have no problems later when minecraft changes the field's name.
-            * By creating a list of these maps we can easily modify them later
-            * on.
-            */
-            List<Map<?, ?>> dataMaps = new ArrayList<Map<?, ?>>();
-            for (Field f : EntityTypes.class.getDeclaredFields()) {
-                if (f.getType().getSimpleName().equals(Map.class.getSimpleName())) {
-                    f.setAccessible(true);
-                    dataMaps.add((Map<?, ?>) f.get(null));
-                }
-            }
- 
-            /*
-            * since minecraft checks if an id has already been registered, we
-            * have to remove the old entity class before we can register our
-            * custom one
-            *
-            * map 0 is the map with names and map 2 is the map with ids
-            */
-            if (dataMaps.get(2).containsKey(id)) {
-                dataMaps.get(0).remove(name);
-                dataMaps.get(2).remove(id);
-            }
- 
-            /*
-            * now we call the method which adds the entity to the lists in the
-            * EntityTypes class, now we are actually 'registering' our entity
-            */
-            Method method = EntityTypes.class.getDeclaredMethod("a", Class.class, String.class, int.class);
-            method.setAccessible(true);
-            method.invoke(null, customClass, name, id);
- 
-            /*
-            * after doing the basic registering stuff , we have to register our
-            * mob as to be the default for every biome. This can be done by
-            * looping through all BiomeBase fields in the BiomeBase class, so
-            * we can loop though all available biomes afterwards. Here, again,
-            * I am using reflection so we have no problems later when minecraft
-            * changes the fields name
-            */
-            for (Field f : BiomeBase.class.getDeclaredFields()) {
-                if (f.getType().getSimpleName().equals(BiomeBase.class.getSimpleName())) {
-                    if (f.get(null) != null) {
- 
-                        /*
-                        * this peace of code is being called for every biome,
-                        * we are going to loop through all fields in the
-                        * BiomeBase class so we can detect which of them are
-                        * Lists (again, to prevent problems when the field's
-                        * name changes), by doing this we can easily get the 4
-                        * required lists without using the name (which probably
-                        * changes every version)
-                        */
-                        for (Field list : BiomeBase.class.getDeclaredFields()) {
-                            if (list.getType().getSimpleName().equals(List.class.getSimpleName())) {
-                                list.setAccessible(true);
-                                @SuppressWarnings("unchecked")
-                                List<BiomeMeta> metaList = (List<BiomeMeta>) list.get(f.get(null));
- 
-                                /*
-                                * now we are almost done. This peace of code
-                                * we're in now is called for every biome. Loop
-                                * though the list with BiomeMeta, if the
-                                * BiomeMeta's entity is the one you want to
-                                * change (for example if EntitySkeleton matches
-                                * EntitySkeleton) we will change it to our
-                                * custom entity class
-                                */
-                                for (BiomeMeta meta : metaList) {
-                                    Field clazz = BiomeMeta.class.getDeclaredFields()[0];
-                                    if (clazz.get(meta).equals(nmsClass)) {
-                                        clazz.set(meta, customClass);
-                                    }
-                                }
-                            }
-                        }
- 
-                    }
-                }
-            }
- 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }
